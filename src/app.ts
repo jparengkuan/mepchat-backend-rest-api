@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser';
 import connectDB from './utils/connectDB';
 import userRouter from './routes/user.route';
 import authRouter from './routes/auth.route';
+import teamRouter from './routes/team.route';
 
 const app = express();
 
@@ -24,7 +25,7 @@ if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
 // 4. Cors
 app.use(
   cors({
-    origin: config.get<string>('origin'),
+    //origin: config.get<string>('origin'),
     credentials: true,
   })
 );
@@ -32,6 +33,7 @@ app.use(
 // 5. Routes
 app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
+app.use('/api/teams', teamRouter)
 
 // Testing
 app.get('/healthChecker', (req: Request, res: Response, next: NextFunction) => {
