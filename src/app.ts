@@ -1,3 +1,5 @@
+import recipeRoute from "./routes/recipe.route";
+
 require('dotenv').config();
 import express, { NextFunction, Request, Response } from 'express';
 import morgan from 'morgan';
@@ -34,6 +36,8 @@ app.use(
 app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/teams', teamRouter)
+app.use('/api/recipes', recipeRoute)
+
 
 // Testing
 app.get('/healthChecker', (req: Request, res: Response, next: NextFunction) => {
