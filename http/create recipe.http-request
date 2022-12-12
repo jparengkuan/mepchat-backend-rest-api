@@ -1,0 +1,13 @@
+{
+  "body": {
+    "content": "eyAKICAgICJ0aXRsZSI6ICJ0ZXN0IiwKICAgICJ2b2x1bWUiOiAiMTAwIiwKICAgICJwcmVwYXJhdGlvbiI6ICJ5ZWV0IiwKICAgICJ1bml0IjogImtnIgp9",
+    "file": false,
+    "fileSize": false
+  },
+  "headers": {
+    "content-type": "application/json"
+  },
+  "method": "POST",
+  "title": "Create recipe",
+  "url": "http://localhost:8000/api/recipes/new"
+}
