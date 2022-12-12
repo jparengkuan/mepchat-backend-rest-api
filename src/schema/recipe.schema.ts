@@ -9,4 +9,11 @@ export const createRecipeSchema = object({
     }),
 });
 
+export const deleteRecipeSchema = object({
+    body: object({
+        _id: string({ required_error: 'could not find recipe'}),
+    }),
+});
+
 export type CreateRecipeInput = TypeOf<typeof createRecipeSchema>['body'];
+export type DeleteRecipeInput = TypeOf<typeof deleteRecipeSchema>['body'];

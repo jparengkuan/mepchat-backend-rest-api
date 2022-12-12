@@ -35,8 +35,10 @@ app.use(
 // 5. Routes
 app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
-app.use('/api/teams', teamRouter)
-app.use('/api/recipes', recipeRoute)
+app.use('/api/teams', teamRouter);
+
+/** Recipe routes */
+app.use('/api/recipes', recipeRoute);
 
 
 // Testing

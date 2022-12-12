@@ -1,9 +1,11 @@
-import { getModelForClass, index, prop } from "@typegoose/typegoose";
+import { getModelForClass, index, mongoose, prop } from "@typegoose/typegoose";
 
 @index({ name: 1})
 
 // Export the Recipe class to be used as Typescript type
 export class Recipe {
+    _id?: mongoose.Types.ObjectId;
+
     @prop({ unique: true, required: true })
     title!: string;
 
