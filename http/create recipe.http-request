@@ -9,5 +9,5 @@
   },
   "method": "POST",
   "title": "Create recipe",
-  "url": "http://localhost:8000/api/recipes/new"
+  "url": "http://localhost:8000/api/recipes"
 }

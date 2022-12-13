@@ -1,4 +1,4 @@
-import { getModelForClass, index, mongoose, prop } from "@typegoose/typegoose";
+import {getModelForClass, index, mongoose, prop, Ref} from "@typegoose/typegoose";
 
 @index({ name: 1})
 

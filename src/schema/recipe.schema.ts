@@ -9,11 +9,18 @@ export const createRecipeSchema = object({
     }),
 });
 
+export const getRecipeSchema = object({
+    body: object({
+        _id: string({ required_error: 'id is required'}),
+    }),
+});
+
 export const deleteRecipeSchema = object({
     body: object({
-        _id: string({ required_error: 'could not find recipe'}),
+        _id: string({ required_error: 'id is required'}),
     }),
 });
 
 export type CreateRecipeInput = TypeOf<typeof createRecipeSchema>['body'];
+export type GetRecipeInput = TypeOf<typeof getRecipeSchema>['body'];
 export type DeleteRecipeInput = TypeOf<typeof deleteRecipeSchema>['body'];
