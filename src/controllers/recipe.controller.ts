@@ -1,8 +1,13 @@
 import { getModelForClass } from '@typegoose/typegoose';
 import { NextFunction, Request, Response } from 'express';
 import { Recipe } from '../models/recipe.model';
-import {CreateRecipeInput, DeleteRecipeInput, GetRecipeInput} from "../schema/recipe.schema";
-import {createRecipe, findRecipeById} from "../services/recipe.service";
+import {
+    CreateRecipeInput,
+    DeleteRecipeInput,
+    GetRecipeInput,
+    UpdateRecipeInput,
+} from "../schema/recipe.schema";
+import {createRecipe, findRecipeById, updateRecipe} from "../services/recipe.service";
 
 export const newRecipeHandler = async (
     req: Request<{}, {}, CreateRecipeInput>,
@@ -53,6 +58,43 @@ export const getRecipeHandler = async (
         return res.status(200).json({
             status: 'success',
             data: recipe,
+        });
+    } catch (err: any) {
+        if (err.code === 11000) {
+            return res.status(409).json({
+                status: 'fail',
+                message: 'Could not find the desired recipe',
+            });
+        }
+        next(err);
+    }
+}
+
+export const updateRecipeHandler = async (
+    req: Request<{}, {}, UpdateRecipeInput>,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const recipeId = req.body._id;
+        let recipe = await findRecipeById(recipeId!);
+        const receivedRecipe = {
+            title: req.body.title,
+            volume: req.body.volume,
+            preparation: req.body.preparation,
+            unit: req.body.unit,
+        };
+
+        if (!recipeExists(recipe)) {
+            return res.status(204).json({
+                status: 'fail',
+                message: 'Could not find the desired recipe',
+            });
+        }
+        await updateRecipe(receivedRecipe).then(result => console.log(result))
+        return res.status(200).json({
+            status: 'success',
+            data: recipeId,
         });
     } catch (err: any) {
         if (err.code === 11000) {

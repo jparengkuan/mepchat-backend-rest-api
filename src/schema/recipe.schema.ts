@@ -15,6 +15,16 @@ export const getRecipeSchema = object({
     }),
 });
 
+export const updateRecipeSchema = object({
+    body: object({
+        _id: string().optional(),
+        title: string().optional(),
+        volume: string().optional(),
+        preparation: string().optional(),
+        unit: string().optional()
+    }),
+});
+
 export const deleteRecipeSchema = object({
     body: object({
         _id: string({ required_error: 'id is required'}),
@@ -23,4 +33,5 @@ export const deleteRecipeSchema = object({
 
 export type CreateRecipeInput = TypeOf<typeof createRecipeSchema>['body'];
 export type GetRecipeInput = TypeOf<typeof getRecipeSchema>['body'];
+export type UpdateRecipeInput = TypeOf<typeof updateRecipeSchema>['body'];
 export type DeleteRecipeInput = TypeOf<typeof deleteRecipeSchema>['body'];
