@@ -3,11 +3,11 @@ import { NextFunction, Request, Response } from 'express';
 import { Recipe } from '../models/recipe.model';
 import {
     CreateRecipeInput,
-    DeleteRecipeInput,
+    DeleteRecipeInput, GetAllRecipeInput,
     GetRecipeInput,
     UpdateRecipeInput,
 } from "../schema/recipe.schema";
-import {createRecipe, findRecipeById, updateRecipe} from "../services/recipe.service";
+import {createRecipe, findAllRecipes, findRecipeById, updateRecipe} from "../services/recipe.service";
 
 export const newRecipeHandler = async (
     req: Request<{}, {}, CreateRecipeInput>,
@@ -64,6 +64,36 @@ export const getRecipeHandler = async (
             return res.status(409).json({
                 status: 'fail',
                 message: 'Could not find the desired recipe',
+            });
+        }
+        next(err);
+    }
+}
+
+export const getAllRecipeHandler = async (
+    req: Request<{}, {}, GetAllRecipeInput>,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const recipes = await findAllRecipes();
+
+        if (!recipes) {
+            return res.status(204).json({
+                status: 'fail',
+                message: 'Could not find the desired recipes',
+            });
+        }
+
+        return res.status(200).json({
+            status: 'success',
+            data: recipes,
+        });
+    } catch (err: any) {
+        if (err.code === 11000) {
+            return res.status(409).json({
+                status: 'fail',
+                message: 'Could not find the desired recipes',
             });
         }
         next(err);

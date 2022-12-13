@@ -15,6 +15,10 @@ export const getRecipeSchema = object({
     }),
 });
 
+export const getAllRecipeSchema = object({
+    body: object({}).optional(),
+});
+
 export const updateRecipeSchema = object({
     body: object({
         _id: string().optional(),
@@ -33,5 +37,6 @@ export const deleteRecipeSchema = object({
 
 export type CreateRecipeInput = TypeOf<typeof createRecipeSchema>['body'];
 export type GetRecipeInput = TypeOf<typeof getRecipeSchema>['body'];
+export type GetAllRecipeInput = TypeOf<typeof getAllRecipeSchema>['body'];
 export type UpdateRecipeInput = TypeOf<typeof updateRecipeSchema>['body'];
 export type DeleteRecipeInput = TypeOf<typeof deleteRecipeSchema>['body'];

@@ -16,3 +16,8 @@ export const findRecipeById = async (id: string) => {
     const recipe = await recipeModel.findById(id).lean();
     return omit(recipe);
 };
+
+export const findAllRecipes = async () => {
+    const recipe = await recipeModel.find().lean();
+    return omit(recipe);
+};
