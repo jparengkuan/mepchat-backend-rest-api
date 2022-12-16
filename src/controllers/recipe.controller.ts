@@ -40,12 +40,12 @@ export const newRecipeHandler = async (
 };
 
 export const getRecipeHandler = async (
-    req: Request<{}, {}, GetRecipeInput>,
+    req: Request<{id: string}, {}, GetRecipeInput>,
     res: Response,
     next: NextFunction
 ) => {
     try {
-        const recipeId: string = req.body._id;
+        const recipeId: string = req.params.id;
         const recipe = await findRecipeById(recipeId);
 
         if (!recipeExists(recipe)) {
@@ -101,12 +101,12 @@ export const getAllRecipeHandler = async (
 }
 
 export const updateRecipeHandler = async (
-    req: Request<{}, {}, UpdateRecipeInput>,
+    req: Request<{id: string}, {}, UpdateRecipeInput>,
     res: Response,
     next: NextFunction
 ) => {
     try {
-        const recipeId = req.body._id;
+        const recipeId = req.params.id;
         let recipe = await findRecipeById(recipeId!);
         const receivedRecipe = {
             title: req.body.title,
@@ -139,12 +139,12 @@ export const updateRecipeHandler = async (
 
 
 export const deleteRecipeHandler = async (
-    req: Request<{}, {}, DeleteRecipeInput>,
+    req: Request<{id: string}, {}, DeleteRecipeInput>,
     res: Response,
     next: NextFunction
 ) => {
     try {
-        const recipeId: string = req.body._id;
+        const recipeId: string = req.params.id;
         const recipeModel = getModelForClass(Recipe);
         const recipe = await findRecipeById(recipeId);
 

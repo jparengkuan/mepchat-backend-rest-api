@@ -1,12 +1,12 @@
 # Endpoints
 
-| Title           | method | link             | body |
-|-----------------|--------|------------------|------|
-| Get recipe      | GET    | /api/recipes/    |      |
-| Get all recipes | GET    | /api/recipes/all |      |
-| Create recipe   | POST   | /api/recipes/    |      |
-| Delete recipe   | DELETE | /api/recipes/    |      |
-| Patch  recipe   | PATCH  | /api/recipes/    |      |
-|                 |        |                  |      |
-|                 |        |                  |      |
-| Create team     | POST   | /api/teams/new   |      |
+| Title           | method | link              | body                                                                                                                                                        |
+|-----------------|--------|-------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Get recipe      | GET    | /api/recipes/{id} |                                                                                                                                                             |
+| Get all recipes | GET    | /api/recipes/all  |                                                                                                                                                             |
+| Create recipe   | POST   | /api/recipes/{id} | required: { "title": string, "volume": string, "preparation": string, "unit": string}<br/> Optional: {feature: string, archived_at: Date, deleted_at: Date} |
+| Delete recipe   | DELETE | /api/recipes/{id} |                                                                                                                                                             |
+| Patch  recipe   | PATCH  | /api/recipes/{id} | everything is optional (check create request)                                                                                                               |
+|                 |        |                   |                                                                                                                                                             |
+|                 |        |                   |                                                                                                                                                             |
+| Create team     | POST   | /api/teams/new    |                                                                                                                                                             |

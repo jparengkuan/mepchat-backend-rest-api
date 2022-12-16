@@ -18,9 +18,9 @@ const router = express.Router();
 
 // Create new recipe route
 router.post('/', validate(createRecipeSchema), newRecipeHandler);
-router.get('/', validate(getRecipeSchema), getRecipeHandler);
-router.get('/all', validate(getAllRecipeSchema), getAllRecipeHandler);
-router.patch('/', validate(updateRecipeSchema), updateRecipeHandler);
-router.delete('/', validate(deleteRecipeSchema), deleteRecipeHandler);
+router.get('/', validate(getAllRecipeSchema), getAllRecipeHandler);
+router.get('/:id', validate(getRecipeSchema), getRecipeHandler);
+router.patch('/:id', validate(updateRecipeSchema), updateRecipeHandler);
+router.delete('/:id', validate(deleteRecipeSchema), deleteRecipeHandler);
 
 export default router;
