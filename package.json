@@ -4,7 +4,8 @@
   "main": "app.ts",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node-dev --respawn --transpile-only src/app.ts"
+    "start": "ts-node-dev --respawn --transpile-only src/app.ts",
+    "start:dev": "ts-node-dev --respawn --transpile-only src/app.ts"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",

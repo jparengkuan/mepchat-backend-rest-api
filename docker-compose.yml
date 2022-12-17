@@ -1,5 +1,17 @@
 version: '3.8'
 services:
+  web:
+    build: ./
+    volumes:
+      - .:/src
+    links:
+      - redis
+      - mongo
+    command: yarn start
+    env_file:
+      - ./.env
+    ports:
+      - "8000:8000"
   mongo:
     image: mongo:latest
     container_name: mongo

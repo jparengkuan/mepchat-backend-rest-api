@@ -3,7 +3,7 @@ import config from 'config';
 
 const dbUrl = `mongodb://${config.get('dbName')}:${config.get(
   'dbPass'
-)}@${config.get('dbHost')}:6000/mepchat?authSource=admin`;
+)}@${config.get('dbHost')}:${config.get('dbPort')}/mepchat?authSource=admin`;
 
 const connectDB = async () => {
   try {
