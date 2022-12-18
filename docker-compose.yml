@@ -19,13 +19,13 @@ services:
       context: ../mepchat                   # Change if needed to the frontend dir
       dockerfile: Dockerfile
     ports:
-      - "4200:4200"
+      - "4200:80"
     container_name: angular
     networks:
       - mean-stack-net
-#    volumes:
-#      - ../mepchat/src:/usr/app/src         # Change if needed to the frontend dir
-#      - ../mepchat/public:/usr/app/public   # Change if needed to the frontend dir
+    volumes:
+      - ../mepchat/src:/usr/app/src         # Change if needed to the frontend dir
+      - ../mepchat/public:/usr/app/public   # Change if needed to the frontend dir
     depends_on:
       - web
     stdin_open: true
