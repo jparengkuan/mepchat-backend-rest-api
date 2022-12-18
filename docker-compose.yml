@@ -12,6 +12,24 @@ services:
       - ./.env
     ports:
       - "8000:8000"
+    networks:
+      - mean-stack-net
+  angular:
+    build:
+      context: ../mepchat                   # Change if needed to the frontend dir
+      dockerfile: Dockerfile
+    ports:
+      - "4200:4200"
+    container_name: angular
+    networks:
+      - mean-stack-net
+#    volumes:
+#      - ../mepchat/src:/usr/app/src         # Change if needed to the frontend dir
+#      - ../mepchat/public:/usr/app/public   # Change if needed to the frontend dir
+    depends_on:
+      - web
+    stdin_open: true
+    tty: true
   mongo:
     image: mongo:latest
     container_name: mongo
@@ -25,6 +43,8 @@ services:
       - mongo:/data/db
     ports:
       - '6000:27017'
+    networks:
+      - mean-stack-net
   redis:
     image: redis:latest
     container_name: redis
@@ -32,6 +52,13 @@ services:
       - '6379:6379'
     volumes:
       - redis:/data
+    networks:
+      - mean-stack-net
 volumes:
   mongo:
   redis:
+
+networks:
+  mean-stack-net:
+    driver: bridge
+#    external: true
