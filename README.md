@@ -9,4 +9,4 @@
 | Patch  recipe   | PATCH  | /api/recipes/{id} | everything is optional (check create request)                                                                                                               |
 |                 |        |                   |                                                                                                                                                             |
 |                 |        |                   |                                                                                                                                                             |
-| Create team     | POST   | /api/teams/new    |                                                                                                                                                             |
+| Create team     | POST   | /api/teams/new    | required ( "name": string }                                                                                                                                                            |
