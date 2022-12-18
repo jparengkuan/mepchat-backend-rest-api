@@ -10,5 +10,5 @@
 |                 |        |                   |                                                                                                                                                             |
 |                 |        |                   |                                                                                                                                                             |
 | Create team     | POST   | /api/teams/new    | required ( "name": string }               
-| Add a given user to a team     | POST   | /api/teams/addUser   | required ( "teamName": string, "userId": string }            
+| Add user to team     | POST   | /api/teams/addUser   | required ( "teamName": string, "userId": string }            
 |
