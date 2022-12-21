@@ -1,19 +1,21 @@
 version: '3.8'
 services:
-  web:
-    build: ./
-    volumes:
-      - .:/src
-    links:
-      - redis
-      - mongo
-    command: yarn start
-    env_file:
-      - ./.env
-    ports:
-      - "8000:8000"
-    networks:
-      - mean-stack-net
+#  web:
+#    container_name: backend
+#    build: ./
+#    volumes:
+#      - code:/backend
+#      - node_modules:/node_modules
+#    links:
+#      - redis
+#      - mongo
+##    command: yarn start
+#    env_file:
+#      - ./.env
+#    ports:
+#      - "8000:8000"
+#    networks:
+#      - mean-stack-net
   angular:
     build:
       context: ../mepchat                   # Change if needed to the frontend dir
@@ -26,8 +28,8 @@ services:
     volumes:
       - ../mepchat/src:/usr/app/src         # Change if needed to the frontend dir
       - ../mepchat/public:/usr/app/public   # Change if needed to the frontend dir
-    depends_on:
-      - web
+#    depends_on:
+#      - web
     stdin_open: true
     tty: true
   mongo:
@@ -57,6 +59,8 @@ services:
 volumes:
   mongo:
   redis:
+  code:
+  node_modules:
 
 networks:
   mean-stack-net:
