@@ -9,8 +9,8 @@ export const createRecipe = async (input: Partial<Recipe>) => {
     return recipe.toJSON();
 };
 
-export const updateRecipe = async (input: Partial<Recipe>) => {
-    return recipeModel.updateOne(input);
+export const updateRecipe = async (recipeId: string, input: Partial<Recipe>) => {
+    return recipeModel.findByIdAndUpdate(recipeId, input);
 };
 
 // Find recipe by Id

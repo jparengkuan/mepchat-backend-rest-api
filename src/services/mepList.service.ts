@@ -8,8 +8,8 @@ export const createMepList = async (input: MepList) => {
     return mepList.toJSON();
 };
 
-export const updateMepList = async (input: Partial<MepList>) => {
-    return mepListModel.updateOne(input);
+export const updateMepList = async (mepListId: string, input: Partial<MepList>) => {
+    return mepListModel.findByIdAndUpdate(mepListId, input);
 };
 
 export const findMepListById = async (id: string ) => {

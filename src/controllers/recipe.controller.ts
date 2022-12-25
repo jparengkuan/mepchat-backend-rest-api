@@ -109,7 +109,7 @@ export const updateRecipeHandler = async (
             unit: req.body.unit,
         };
 
-        await updateRecipe(receivedRecipe)
+        await updateRecipe(recipeId, receivedRecipe)
 
         return res.status(200).json({
             status: 'success',

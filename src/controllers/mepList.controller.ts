@@ -10,6 +10,7 @@ import {
 import {MepList} from "../models/mepList.model";
 import {createMepList, findAllMepLists, findMepListById, updateMepList} from "../services/mepList.service";
 import {Types} from "mongoose";
+import {updateMepTask} from "../services/mepTask.service";
 
 export const createMepListHandler = async (
     req: Request<{}, {}, CreateMepListInput>,
@@ -22,12 +23,6 @@ export const createMepListHandler = async (
             active: req.body.active!,
             owner_id: req.body.owner_id! as unknown as Types.ObjectId,
         })
-
-        // const mepList = await createMepList({
-        //     title: req.body.title,
-        //     active: req.body.active,
-        //     owner_id: req.body.owner_id as Types.ObjectId,
-        // });
 
         res.status(201).json({
             status: 'success',
@@ -109,18 +104,13 @@ export const updateMepListHandler = async (
         const mepListId = req.params.id;
         await findMepListById(mepListId!);
 
-        // const receivedMepList: MepList = {
-        //     title: req.body.title!,
-        //     active: req.body.active!,
-        //     owner_id: req.body.owner_id,
-        // };
         const receivedMepList: MepList = {
             title: req.body.title!,
             active: req.body.active!,
             owner_id: req.body.owner_id as Types.ObjectId,
         }
 
-        await updateMepList(receivedMepList)
+        await updateMepTask(mepListId, receivedMepList)
 
         return res.status(200).json({
             status: 'success',
