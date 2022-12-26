@@ -30,7 +30,7 @@ export const newTeamHandler = async (
   }
 };
 
-export const addUserToTeam = async (
+export const addUserToTeamHandler = async (
   req: Request<{}, {}, addUserToTeamInput>,
   res: Response,
   next: NextFunction
@@ -39,7 +39,7 @@ export const addUserToTeam = async (
     // First check if the given team exist
     const team = await findTeamByName(req.body.teamName)
 
-    // Return 404 if team doest not exists
+    // Return 404 if team does not exists
     if (!team) {
       return res.status(404).json({
         status: 'fail',
@@ -50,7 +50,6 @@ export const addUserToTeam = async (
     // Second check if the given user exist
     try {
       const user = await findUserById(req.body.userId)
-
       const updatedTeam = await addUser(req.body.teamName, user)
 
       res.status(201).json({
@@ -60,21 +59,15 @@ export const addUserToTeam = async (
         },
       });
     }
-    catch ( err: any)
-    {
-      if (err.kind == 'ObjectId'){
+    catch (err: any) {
+      if (err.kind == 'ObjectId') {
         res.status(400).json({
           status: 'fail',
           message: "userId is not valid"
         });
       }
     }
-    
-
   } catch (err: any) {
-
-    console.log(err)
-
     next(err);
   }
 };
