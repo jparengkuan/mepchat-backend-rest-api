@@ -1,5 +1,5 @@
 import express from 'express';
-import { addUserToTeam, newTeamHandler } from '../controllers/team.controller';
+import { addUserToTeamHandler, newTeamHandler } from '../controllers/team.controller';
 import { deserializeUser } from '../middleware/deserializeUser';
 import { requireUser } from '../middleware/requireUser';
 import { validate } from '../middleware/validate';
@@ -13,7 +13,7 @@ const router = express.Router();
 router.post('/new', validate(createTeamSchema), newTeamHandler);
 
 // Add user to a team route
-router.post('/addUser', validate(addUserToTeamSchema), addUserToTeam);
+router.post('/addUser', validate(addUserToTeamSchema), addUserToTeamHandler);
 
 export default router;
 
