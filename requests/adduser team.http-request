@@ -1,0 +1,13 @@
+{
+  "body": {
+    "content": "ewoidGVhbU5hbWUiOiAidGVhbTEiLAoidXNlcklkIjogInQiCn0=",
+    "file": false,
+    "fileSize": false
+  },
+  "headers": {
+    "content-type": "application/json"
+  },
+  "method": "POST",
+  "title": "Add User",
+  "url": "http://localhost:8000/api/teams/addUser"
+}
