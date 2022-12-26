@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { addUserToTeamInput, CreateTeamInput } from '../schema/team.schema';
 import { addUser, createTeam, findTeamByName } from '../services/team.service';
-import { findUserById } from '../services/user.service';
+import { findUser, findUserByEmail, findUserById } from '../services/user.service';
 
 export const newTeamHandler = async (
   req: Request<{}, {}, CreateTeamInput>,
@@ -49,7 +49,17 @@ export const addUserToTeamHandler = async (
 
     // Second check if the given user exist
     try {
-      const user = await findUserById(req.body.userId)
+      // Get the user from the collection
+      const user = await findUser({ email: req.body.email });
+
+      // Return 404 if the user does not exist
+      if (!user) {
+        return res.status(404).json({
+          status: 'fail',
+          message: 'User does not exist',
+        });
+
+      }
       const updatedTeam = await addUser(req.body.teamName, user)
 
       res.status(201).json({
