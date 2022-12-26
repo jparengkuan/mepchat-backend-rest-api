@@ -1,9 +1,9 @@
 import express from 'express';
-import { addUserToTeamHandler, getAllTeamsHandler, newTeamHandler } from '../controllers/team.controller';
+import { addUserToTeamHandler, deleteTeamHandler, getAllTeamsHandler, newTeamHandler } from '../controllers/team.controller';
 import { deserializeUser } from '../middleware/deserializeUser';
 import { requireUser } from '../middleware/requireUser';
 import { validate } from '../middleware/validate';
-import { addUserToTeamSchema, createTeamSchema } from '../schema/team.schema';
+import { addUserToTeamSchema, createTeamSchema, deleteTeamInputSchema } from '../schema/team.schema';
 //import { restrictTo } from '../middleware/restrictTo';
 
 const router = express.Router();
@@ -17,6 +17,9 @@ router.post('/addUser', validate(addUserToTeamSchema), addUserToTeamHandler);
 
 // Get all the teams
 router.get('/', getAllTeamsHandler)
+
+// Delete team
+router.delete('/:id', validate(deleteTeamInputSchema), deleteTeamHandler);
 
 export default router;
 
