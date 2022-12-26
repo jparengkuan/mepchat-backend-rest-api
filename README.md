@@ -23,4 +23,4 @@
 |                  |        |                    |                                                                                                                                                                                                                                                   |
 | Create team      | POST   | /api/teams/new     | required ( "name": string }                                                                                                                                                                                                                       |
 | Add user to team | POST   | /api/teams/addUser | required ( "teamName": string, "email": string }                                                                                                                                                                                                  |
-|
+| Get all teams  | GET    | /api/teams/      |                                                                                 
