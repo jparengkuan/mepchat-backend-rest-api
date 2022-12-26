@@ -1,7 +1,27 @@
 import { NextFunction, Request, Response } from 'express';
 import { addUserToTeamInput, CreateTeamInput } from '../schema/team.schema';
-import { addUser, createTeam, findTeamByName } from '../services/team.service';
-import { findUser, findUserByEmail, findUserById } from '../services/user.service';
+import { addUser, createTeam, findAllTeams, findTeamByName } from '../services/team.service';
+import { findUser } from '../services/user.service';
+
+export const getAllTeamsHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const teams = await findAllTeams()
+    res.status(200).json({
+      status: 'success',
+      result: teams.length,
+      data: {
+        teams
+      },
+    });
+  } catch (err: any) {
+    next(err);
+  }
+};
+
 
 export const newTeamHandler = async (
   req: Request<{}, {}, CreateTeamInput>,

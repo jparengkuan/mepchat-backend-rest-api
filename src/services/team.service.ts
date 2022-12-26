@@ -8,6 +8,11 @@ export const createTeam = async (input: Partial<Team>) => {
     return team.toJSON();
 };
 
+// Find All teams
+export const findAllTeams = async () => {
+    return await teamModel.find();
+};
+
 // Add a user to a team
 export const addUser = async (teamName: String, user: Partial<User>) => {
 
