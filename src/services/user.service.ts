@@ -19,6 +19,11 @@ export const findUserById = async (id: string) => {
   return omit(user, excludedFields);
 };
 
+// Find User by Email
+export const findUserByEmail = async (email: string) => {
+  return await userModel.findOne({ email: email });
+}
+
 // Find All users
 export const findAllUsers = async () => {
   return await userModel.find();
