@@ -7,10 +7,13 @@ import {
     GetMepListInput,
     UpdateMepListInput
 } from "../schema/mepList.schema";
-import {MepList} from "../models/mepList.model";
-import {createMepList, findAllMepLists, findMepListById, updateMepList} from "../services/mepList.service";
+import {MepList, mepListModel} from "../models/mepList.model";
+import {
+    createMepList,
+    findAllMepLists,
+    findAndCheckMepListById,
+} from "../services/mepList.service";
 import {Types} from "mongoose";
-import {updateMepTask} from "../services/mepTask.service";
 
 export const createMepListHandler = async (
     req: Request<{}, {}, CreateMepListInput>,
@@ -48,7 +51,7 @@ export const getMepListHandler = async (
 ) => {
     try {
         const mepListId: string = req.params.id;
-        let mepList: MepList = await findMepListById(mepListId);
+        let mepList: MepList = await findAndCheckMepListById(mepListId);
 
         return res.status(200).json({
             status: 'success',
@@ -102,7 +105,7 @@ export const updateMepListHandler = async (
 ) => {
     try {
         const mepListId = req.params.id;
-        await findMepListById(mepListId!);
+        await findAndCheckMepListById(mepListId!);
 
         const receivedMepList: MepList = {
             title: req.body.title!,
@@ -110,11 +113,11 @@ export const updateMepListHandler = async (
             owner_id: req.body.owner_id as Types.ObjectId,
         }
 
-        await updateMepTask(mepListId, receivedMepList)
+        const updatedMepList = await mepListModel.updateOne({_id: mepListId}, receivedMepList)
 
         return res.status(200).json({
             status: 'success',
-            data: mepListId,
+            data: updatedMepList,
         });
     } catch (err: any) {
         if (err.code === 11000) {
@@ -135,7 +138,7 @@ export const deleteMepListHandler = async (
     try {
         const mepListId: string = req.params.id;
         const mepListModel = getModelForClass(MepList);
-        const mepList = await findMepListById(mepListId);
+        const mepList = await findAndCheckMepListById(mepListId);
 
         await mepListModel.deleteOne(mepList)
         return res.status(201).json({

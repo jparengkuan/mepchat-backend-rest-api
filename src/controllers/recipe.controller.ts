@@ -1,13 +1,13 @@
 import { getModelForClass } from '@typegoose/typegoose';
 import { NextFunction, Request, Response } from 'express';
-import { Recipe } from '../models/recipe.model';
+import recipeModel, { Recipe } from '../models/recipe.model';
 import {
     CreateRecipeInput,
     DeleteRecipeInput, GetAllRecipeInput,
     GetRecipeInput,
     UpdateRecipeInput,
 } from "../schema/recipe.schema";
-import {createRecipe, findAllRecipes, findRecipeById, updateRecipe} from "../services/recipe.service";
+import {createRecipe, findAllRecipes, findAndCheckRecipeById} from "../services/recipe.service";
 
 export const newRecipeHandler = async (
     req: Request<{}, {}, CreateRecipeInput>,
@@ -46,7 +46,7 @@ export const getRecipeHandler = async (
 ) => {
     try {
         const recipeId: string = req.params.id;
-        let recipe: Recipe = await findRecipeById(recipeId);
+        let recipe: Recipe = await findAndCheckRecipeById(recipeId);
 
         return res.status(200).json({
             status: 'success',
@@ -100,7 +100,7 @@ export const updateRecipeHandler = async (
 ) => {
     try {
         const recipeId = req.params.id;
-        await findRecipeById(recipeId!);
+        await findAndCheckRecipeById(recipeId!);
 
         const receivedRecipe = {
             title: req.body.title,
@@ -109,11 +109,11 @@ export const updateRecipeHandler = async (
             unit: req.body.unit,
         };
 
-        await updateRecipe(recipeId, receivedRecipe)
+        const updatedRecipe = await recipeModel.updateOne({_id: recipeId}, receivedRecipe)
 
         return res.status(200).json({
             status: 'success',
-            data: recipeId,
+            data: updatedRecipe,
         });
     } catch (err: any) {
         if (err.code === 11000) {
@@ -134,7 +134,7 @@ export const deleteRecipeHandler = async (
     try {
         const recipeId: string = req.params.id;
         const recipeModel = getModelForClass(Recipe);
-        const recipe = await findRecipeById(recipeId);
+        const recipe = await findAndCheckRecipeById(recipeId);
 
         await recipeModel.deleteOne(recipe)
         return res.status(201).json({

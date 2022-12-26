@@ -8,11 +8,7 @@ export const createMepList = async (input: MepList) => {
     return mepList.toJSON();
 };
 
-export const updateMepList = async (mepListId: string, input: Partial<MepList>) => {
-    return mepListModel.findByIdAndUpdate(mepListId, input);
-};
-
-export const findMepListById = async (id: string ) => {
+export const findAndCheckMepListById = async (id: string ) => {
     if (!mepListIdIsValid(id)) {
         throw new APIError("Id is not valid", 422 )
     }

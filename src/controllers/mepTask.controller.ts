@@ -7,10 +7,9 @@ import {
     GetMepTaskInput,
     UpdateMepTaskInput
 } from "../schema/mepTask.schema";
-import {MepTask} from "../models/mepTask.model";
-import {createMepTask, findAllMepTasks, findMepTaskById, updateMepTask} from "../services/mepTask.service";
-import {ObjectId, Types} from "mongoose";
-import {updateMepList} from "../services/mepList.service";
+import {MepTask, mepTaskModel} from "../models/mepTask.model";
+import {createMepTask, findAllMepTasks, findAndCheckMepTaskById} from "../services/mepTask.service";
+import {Types} from "mongoose";
 
 export const createMepTaskHandler = async (
     req: Request<{}, {}, CreateMepTaskInput>,
@@ -52,7 +51,7 @@ export const getMepTaskHandler = async (
 ) => {
     try {
         const mepTaskId: string = req.params.id;
-        let mepTask: MepTask = await findMepTaskById(mepTaskId);
+        let mepTask: MepTask = await findAndCheckMepTaskById(mepTaskId);
 
         return res.status(200).json({
             status: 'success',
@@ -106,7 +105,7 @@ export const updateMepTaskHandler = async (
 ) => {
     try {
         let mepTaskId = req.params.id;
-        await findMepTaskById(mepTaskId!);
+        await findAndCheckMepTaskById(mepTaskId!);
 
         const receivedMepTask: MepTask = {
             title: req.body.title!,
@@ -117,11 +116,12 @@ export const updateMepTaskHandler = async (
             mepList_id: req.body.mepList_id! as unknown as Types.ObjectId,
             recipe_id: req.body.recipe_id as unknown as Types.ObjectId,
         }
-        await updateMepList(mepTaskId, receivedMepTask)
+
+        const updatedMepTask = await mepTaskModel.updateOne({_id: mepTaskId}, receivedMepTask)
 
         return res.status(200).json({
             status: 'success',
-            data: mepTaskId,
+            data: updatedMepTask,
         });
     } catch (err: any) {
         if (err.code === 11000) {
@@ -142,7 +142,7 @@ export const deleteMepTaskHandler = async (
     try {
         const mepTaskId: string = req.params.id;
         const mepTaskModel = getModelForClass(MepTask);
-        const mepTask = await findMepTaskById(mepTaskId);
+        const mepTask = await findAndCheckMepTaskById(mepTaskId);
 
         await mepTaskModel.deleteOne(mepTask)
         return res.status(201).json({

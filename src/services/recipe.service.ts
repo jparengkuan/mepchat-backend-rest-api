@@ -9,12 +9,8 @@ export const createRecipe = async (input: Partial<Recipe>) => {
     return recipe.toJSON();
 };
 
-export const updateRecipe = async (recipeId: string, input: Partial<Recipe>) => {
-    return recipeModel.findByIdAndUpdate(recipeId, input);
-};
-
 // Find recipe by Id
-export const findRecipeById = async (id: string ) => {
+export const findAndCheckRecipeById = async (id: string ) => {
     if (!recipeIdIsValid(id)) {
         throw new APIError("Id is not valid", 422 )
     }

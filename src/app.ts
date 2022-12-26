@@ -12,6 +12,7 @@ import authRouter from './routes/auth.route';
 import teamRouter from './routes/team.route';
 import mepListRoute from "./routes/mepList.route";
 import mepTaskRoute from "./routes/mepTask.route";
+import ingredientRoute from "./routes/ingredient.route";
 
 const app = express();
 
@@ -47,6 +48,9 @@ app.use('/api/meplist', mepListRoute);
 
 /** MepTask routes */
 app.use('/api/meptask', mepTaskRoute);
+
+/** Ingredient routes */
+app.use('/api/ingredient', ingredientRoute);
 
 // Testing
 app.get('/healthChecker', (req: Request, res: Response, next: NextFunction) => {
