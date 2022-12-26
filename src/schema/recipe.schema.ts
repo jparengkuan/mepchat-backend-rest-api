@@ -1,4 +1,10 @@
-import { object, string, TypeOf } from 'zod';
+import {object, string, TypeOf} from 'zod';
+
+const params = {
+    params: object({
+        id: string({required_error: "id is required"})
+    })
+}
 
 export const createRecipeSchema = object({
     body: object({
@@ -10,7 +16,7 @@ export const createRecipeSchema = object({
 });
 
 export const getRecipeSchema = object({
-    id: string().optional(),
+    ...params
 });
 
 export const getAllRecipeSchema = object({
@@ -28,7 +34,7 @@ export const updateRecipeSchema = object({
 });
 
 export const deleteRecipeSchema = object({
-    id: string().optional(),
+    ...params
 });
 
 export type CreateRecipeInput = TypeOf<typeof createRecipeSchema>['body'];

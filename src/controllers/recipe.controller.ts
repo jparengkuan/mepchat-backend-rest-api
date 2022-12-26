@@ -46,14 +46,7 @@ export const getRecipeHandler = async (
 ) => {
     try {
         const recipeId: string = req.params.id;
-        const recipe = await findRecipeById(recipeId);
-
-        if (!recipeExists(recipe)) {
-            return res.status(204).json({
-                status: 'fail',
-                message: 'Could not find the desired recipe',
-            });
-        }
+        let recipe: Recipe = await findRecipeById(recipeId);
 
         return res.status(200).json({
             status: 'success',
@@ -63,7 +56,7 @@ export const getRecipeHandler = async (
         if (err.code === 11000) {
             return res.status(409).json({
                 status: 'fail',
-                message: 'Could not find the desired recipe',
+                message: 'Could not find the desired recipes',
             });
         }
         next(err);
@@ -107,7 +100,8 @@ export const updateRecipeHandler = async (
 ) => {
     try {
         const recipeId = req.params.id;
-        let recipe = await findRecipeById(recipeId!);
+        await findRecipeById(recipeId!);
+
         const receivedRecipe = {
             title: req.body.title,
             volume: req.body.volume,
@@ -115,13 +109,8 @@ export const updateRecipeHandler = async (
             unit: req.body.unit,
         };
 
-        if (!recipeExists(recipe)) {
-            return res.status(204).json({
-                status: 'fail',
-                message: 'Could not find the desired recipe',
-            });
-        }
-        await updateRecipe(receivedRecipe).then(result => console.log(result))
+        await updateRecipe(recipeId, receivedRecipe)
+
         return res.status(200).json({
             status: 'success',
             data: recipeId,
@@ -130,13 +119,12 @@ export const updateRecipeHandler = async (
         if (err.code === 11000) {
             return res.status(409).json({
                 status: 'fail',
-                message: 'Could not find the desired recipe',
+                message: 'Could not update desired recipe',
             });
         }
         next(err);
     }
 }
-
 
 export const deleteRecipeHandler = async (
     req: Request<{id: string}, {}, DeleteRecipeInput>,
@@ -147,13 +135,6 @@ export const deleteRecipeHandler = async (
         const recipeId: string = req.params.id;
         const recipeModel = getModelForClass(Recipe);
         const recipe = await findRecipeById(recipeId);
-
-        if (!recipeExists(recipe)) {
-            return res.status(204).json({
-                status: 'fail',
-                message: 'Could not find the desired recipe',
-            });
-        }
 
         await recipeModel.deleteOne(recipe)
         return res.status(201).json({
@@ -169,8 +150,4 @@ export const deleteRecipeHandler = async (
         }
         next(err);
     }
-}
-
-const recipeExists = (recipe: Recipe) => {
-    return Object.keys(recipe).length !== 0
 }

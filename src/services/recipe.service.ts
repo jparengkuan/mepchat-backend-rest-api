@@ -1,5 +1,7 @@
 import recipeModel, {Recipe} from "../models/recipe.model";
 import {omit} from 'lodash';
+import {Types} from "mongoose";
+import {APIError} from "../utils/APIError";
 
 // Create new recipe
 export const createRecipe = async (input: Partial<Recipe>) => {
@@ -7,17 +9,35 @@ export const createRecipe = async (input: Partial<Recipe>) => {
     return recipe.toJSON();
 };
 
-export const updateRecipe = async (input: Partial<Recipe>) => {
-    return recipeModel.updateOne(input);
+export const updateRecipe = async (recipeId: string, input: Partial<Recipe>) => {
+    return recipeModel.findByIdAndUpdate(recipeId, input);
 };
 
 // Find recipe by Id
-export const findRecipeById = async (id: string) => {
-    const recipe = await recipeModel.findById(id).lean();
-    return omit(recipe);
+export const findRecipeById = async (id: string ) => {
+    if (!recipeIdIsValid(id)) {
+        throw new APIError("Id is not valid", 422 )
+    }
+
+    let recipe = await recipeModel.findById(id).lean();
+    recipe = omit(recipe)
+
+    if (!recipeExists(recipe)) {
+        throw new APIError("Could not find the desired recipe", 204)
+    }
+
+    return recipe;
 };
 
 export const findAllRecipes = async () => {
     const recipe = await recipeModel.find().lean();
     return omit(recipe);
 };
+
+const recipeExists = (recipe: Recipe) => {
+    return Object.keys(recipe).length !== 0
+}
+
+const recipeIdIsValid = (recipeId: string) => {
+    return Types.ObjectId.isValid(recipeId)
+}
