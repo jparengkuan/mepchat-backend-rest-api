@@ -1,15 +1,15 @@
-import {object, string, TypeOf} from 'zod';
+import { object, string, TypeOf } from 'zod';
 
 const params = {
     params: object({
-        id: string({required_error: "id is required"})
+        id: string({ required_error: "id is required" })
     })
 }
 
 export const createIngredientSchema = object({
     body: object({
-        title: string({ required_error: 'Title for a ingredient is required'}),
-        unit: string({ required_error: 'Unit for a ingredient is required'}),
+        title: string({ required_error: 'Title for a ingredient is required' }),
+        unit: string({ required_error: 'Unit for a ingredient is required' }),
         allergy: string().optional(),
     }),
 });
