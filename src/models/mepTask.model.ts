@@ -1,5 +1,4 @@
 import {getModelForClass, index, mongoose, prop, Ref} from "@typegoose/typegoose";
-import {User} from "./user.model";
 import {MepList} from "./mepList.model";
 import {Recipe} from "./recipe.model";
 

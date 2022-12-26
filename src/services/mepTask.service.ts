@@ -1,5 +1,5 @@
 import {omit} from 'lodash';
-import {ObjectId, Types} from "mongoose";
+import {Types} from "mongoose";
 import {APIError} from "../utils/APIError";
 import {MepTask, mepTaskModel} from "../models/mepTask.model";
 
@@ -8,11 +8,7 @@ export const createMepTask = async (input: MepTask) => {
     return mepTask.toJSON();
 };
 
-export const updateMepTask = async (mepTaskID: string, input: Partial<MepTask>) => {
-    return mepTaskModel.findByIdAndUpdate(mepTaskID, input);
-};
-
-export const findMepTaskById = async (id: string ) => {
+export const findAndCheckMepTaskById = async (id: string ) => {
     if (!mepTaskIdIsValid(id)) {
         throw new APIError("Id is not valid", 422 )
     }
