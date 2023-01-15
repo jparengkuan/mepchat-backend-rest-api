@@ -9,8 +9,7 @@ import {
 } from "../schema/dish.schema";
 import {Dish, dishModel} from "../models/dish.model";
 import {
-    createDish,
-    findAllDishs,
+    createDish, findAllDishes,
     findAndCheckDishById,
 } from "../services/dish.service";
 
@@ -74,9 +73,9 @@ export const getAllDishsHandler = async (
     next: NextFunction
 ) => {
     try {
-        const dishs = await findAllDishs();
+        const dishes = await findAllDishes();
 
-        if (!dishs) {
+        if (!dishes) {
             return res.status(204).json({
                 status: 'fail',
                 message: 'Could not find the desired dishs',
@@ -85,7 +84,7 @@ export const getAllDishsHandler = async (
 
         return res.status(200).json({
             status: 'success',
-            data: dishs,
+            data: dishes,
         });
     } catch (err: any) {
         if (err.code === 11000) {

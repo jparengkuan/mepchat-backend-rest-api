@@ -23,7 +23,7 @@ export const findAndCheckDishById = async (id: string ) => {
     return dish;
 };
 
-export const findAllDishs = async () => {
+export const findAllDishes = async () => {
     const dish = await dishModel.find().lean();
     return omit(dish);
 };

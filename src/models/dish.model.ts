@@ -20,7 +20,7 @@ export class Dish {
 
     @prop({ required: false, ref: () => Recipe })
     recipes?: Ref<Recipe>[];
-    
+
     @prop()
     archived_at?: Date;
 
