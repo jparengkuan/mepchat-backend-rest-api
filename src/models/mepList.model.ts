@@ -1,5 +1,6 @@
 import {getModelForClass, index, mongoose, prop, Ref} from "@typegoose/typegoose";
 import {User} from "./user.model";
+import {MepTask} from "./mepTask.model";
 
 @index({ name: 1})
 
