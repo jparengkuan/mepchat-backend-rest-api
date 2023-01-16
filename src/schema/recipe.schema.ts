@@ -1,4 +1,4 @@
-import {object, string, TypeOf} from 'zod';
+import {object, string, TypeOf, z} from 'zod';
 
 const params = {
     params: object({
@@ -11,7 +11,11 @@ export const createRecipeSchema = object({
         title: string({ required_error: 'Title for a recipe is required'}),
         volume: string({ required_error: 'Volume information for a recipe is required'}),
         preparation: string({ required_error: 'Preparation instructions for a recipe is required'}),
-        unit: string({ required_error: 'Unit is required for a recipe'})
+        unit: string({ required_error: 'Unit is required for a recipe'}),
+        ingredients: z.string().array().optional(),
+        updated_at: z.string().transform((a) => new Date(a)).optional(),
+        archived_at: z.string().transform((a) => new Date(a)).optional(),
+        deleted_at: z.string().transform((a) => new Date(a)).optional(),
     }),
 });
 
@@ -29,7 +33,11 @@ export const updateRecipeSchema = object({
         title: string().optional(),
         volume: string().optional(),
         preparation: string().optional(),
-        unit: string().optional()
+        unit: string().optional(),
+        ingredients: z.string().array().optional(),
+        updated_at: z.string().transform((a) => new Date(a)).optional(),
+        archived_at: z.string().transform((a) => new Date(a)).optional(),
+        deleted_at: z.string().transform((a) => new Date(a)).optional(),
     }),
 });
 

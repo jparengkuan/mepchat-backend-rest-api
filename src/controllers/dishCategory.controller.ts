@@ -14,7 +14,6 @@ import {
     findAndCheckDishCategoryById,
 } from "../services/dishCategory.service";
 import {findAndCheckDishById} from "../services/dish.service";
-import {APIError} from "../utils/APIError";
 
 export const createDishCategoryHandler = async (
     req: Request<{}, {}, CreateDishCategoryInput>,
@@ -23,7 +22,7 @@ export const createDishCategoryHandler = async (
 ) => {
     try {
         const dishesReq = req.body.dishes ?? []
-        validateDishIds(dishesReq)
+        await validateDishIds(dishesReq)
 
         const dishCategory = await createDishCategory({
             dishes: dishesReq,

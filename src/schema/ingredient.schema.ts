@@ -1,4 +1,4 @@
-import { object, string, TypeOf } from 'zod';
+import {object, string, TypeOf, z} from 'zod';
 
 const params = {
     params: object({

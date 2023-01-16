@@ -12,7 +12,7 @@ export const updateIngredient = async (ingredientId: string, input: Partial<Ingr
     return ingredientModel.findByIdAndUpdate(ingredientId, input);
 };
 
-export const findAndCheckIngredientById = async (id: string ) => {
+export const findAndCheckIngredientById = async (id: string | Types.ObjectId ) => {
     if (!ingredientIdIsValid(id)) {
         throw new APIError("Id is not valid", 422 )
     }
@@ -36,6 +36,6 @@ const ingredientExists = (ingredient: Ingredient) => {
     return Object.keys(ingredient).length !== 0
 }
 
-const ingredientIdIsValid = (ingredientId: string) => {
+const ingredientIdIsValid = (ingredientId: string | Types.ObjectId) => {
     return Types.ObjectId.isValid(ingredientId)
 }

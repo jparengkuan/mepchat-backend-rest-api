@@ -8,6 +8,8 @@ import {
     UpdateRecipeInput,
 } from "../schema/recipe.schema";
 import {createRecipe, findAllRecipes, findAndCheckRecipeById} from "../services/recipe.service";
+import {Types} from "mongoose";
+import {findAndCheckIngredientById} from "../services/ingredient.service";
 
 export const newRecipeHandler = async (
     req: Request<{}, {}, CreateRecipeInput>,
@@ -15,11 +17,15 @@ export const newRecipeHandler = async (
     next: NextFunction
 ) => {
     try {
+        const ingredientsReq = req.body.ingredients as unknown as Types.ObjectId[];
+        await validateIngredientsIds(ingredientsReq);
         const recipe = await createRecipe({
             title: req.body.title,
             volume: req.body.volume,
             preparation: req.body.preparation,
             unit: req.body.unit,
+            updated_at: new Date(),
+            ingredients: ingredientsReq,
         });
 
         res.status(201).json({
@@ -100,6 +106,8 @@ export const updateRecipeHandler = async (
 ) => {
     try {
         const recipeId = req.params.id;
+        const ingredientsReq: string[] = req.body.ingredients ?? []
+        await validateIngredientsIds(ingredientsReq)
         await findAndCheckRecipeById(recipeId!);
 
         const receivedRecipe = {
@@ -107,6 +115,8 @@ export const updateRecipeHandler = async (
             volume: req.body.volume,
             preparation: req.body.preparation,
             unit: req.body.unit,
+            updated_at: new Date(),
+            ingredients: ingredientsReq,
         };
 
         const updatedRecipe = await recipeModel.updateOne({_id: recipeId}, receivedRecipe)
@@ -117,6 +127,7 @@ export const updateRecipeHandler = async (
         });
     } catch (err: any) {
         if (err.code === 11000) {
+            console.log(err)
             return res.status(409).json({
                 status: 'fail',
                 message: 'Could not update desired recipe',
@@ -149,5 +160,13 @@ export const deleteRecipeHandler = async (
             });
         }
         next(err);
+    }
+}
+
+async function validateIngredientsIds(ids: string[] | Types.ObjectId[]) {
+    if (ids.length) {
+        for (const dishId of ids) {
+            await findAndCheckIngredientById(dishId);
+        }
     }
 }
