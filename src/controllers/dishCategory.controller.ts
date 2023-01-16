@@ -111,7 +111,7 @@ export const updateDishCategoryHandler = async (
     try {
         const dishCategoryId = req.params.id;
         const dishesReq: string[] = req.body.dishes ?? []
-        validateDishIds(dishesReq)
+        await validateDishIds(dishesReq)
 
         await findAndCheckDishCategoryById(dishCategoryId!);
         let receivedDishCategory: DishCategory;
@@ -173,14 +173,10 @@ export const deleteDishCategoryHandler = async (
     }
 }
 
-function validateDishIds(ids: any) {
+async function validateDishIds(ids: any) {
     if (ids.length) {
-        ids.forEach((dishId: string) => {
-            try {
-                findAndCheckDishById(dishId);
-            } catch (err: any) {
-                return err;
-            }
-        })
+        for (const dishId of ids) {
+            await findAndCheckDishById(dishId);
+        }
     }
 }
