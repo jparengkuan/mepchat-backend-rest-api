@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import { CreateTeamInput, deleteTeamInput, updateUserToTeamInput } from '../schema/team.schema';
-import { addUser, createTeam, deleteTeamById, deleteUser, findAllTeams, findTeamByName } from '../services/team.service';
+import { CreateTeamInput, deleteTeamInput, getTeamInput, updateUserToTeamInput } from '../schema/team.schema';
+import { addUser, createTeam, deleteTeamById, deleteUser, findAllTeams, findTeamById, findTeamByName } from '../services/team.service';
 import { findUser } from '../services/user.service';
 
 export const getAllTeamsHandler = async (
@@ -21,6 +21,34 @@ export const getAllTeamsHandler = async (
     next(err);
   }
 };
+
+
+export const getTeamHandler = async (
+  req: Request<{ id: string }, {}, getTeamInput>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+
+    const team = await findTeamById(req.params.id)
+    if (!team) {
+      return res.status(404).json({
+        status: 'fail',
+        message: 'Team does not exist',
+      });
+    }
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        team
+      },
+    });
+  } catch (err: any) {
+    next(err);
+  }
+};
+
 
 export const deleteTeamHandler = async (
   req: Request<{ id: string }, {}, deleteTeamInput>,

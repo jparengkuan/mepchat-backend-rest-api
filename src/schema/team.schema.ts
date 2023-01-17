@@ -21,6 +21,13 @@ export const deleteTeamInputSchema = object({
     }),
 });
 
+export const getTeamInputSchema = object({
+    params: object({
+        id: string({ required_error: "id is required" })
+    }),
+});
+
 export type CreateTeamInput = TypeOf<typeof createTeamSchema>['body'];
 export type updateUserToTeamInput = TypeOf<typeof updateUserToTeamSchema>['body'];
+export type getTeamInput = TypeOf<typeof getTeamInputSchema>['params'];
 export type deleteTeamInput = TypeOf<typeof deleteTeamInputSchema>['params'];
