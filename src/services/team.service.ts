@@ -38,12 +38,23 @@ export const addUser = async (teamName: String, user: Partial<User>) => {
 
 };
 
+// Delete a user from a team
+export const deleteUser = async (teamName: String, user: Partial<User>) => {
+
+    const team = await teamModel.findOneAndUpdate(
+        { name: teamName },
+        { $pull: { users: user } }
+    );
+
+    return team?.toJSON();
+};
+
 // Find team by teamName
 export const findTeamByName = async (teamName: string) => {
     return await teamModel.findOne({ name: teamName });
 };
 
-// Fuction toe check if id is valid
+// Fuction to check if the given id is a valid mongodb objectid
 const isValidObjectId = (id: string) => {
     return Types.ObjectId.isValid(id)
 }
