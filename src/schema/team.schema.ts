@@ -6,7 +6,7 @@ export const createTeamSchema = object({
     }),
 });
 
-export const addUserToTeamSchema = object({
+export const updateUserToTeamSchema = object({
     body: object({
         teamName: string({ required_error: 'teamName is required' }),
         email: string({ required_error: 'Email is required' }).email(
@@ -22,5 +22,5 @@ export const deleteTeamInputSchema = object({
 });
 
 export type CreateTeamInput = TypeOf<typeof createTeamSchema>['body'];
-export type addUserToTeamInput = TypeOf<typeof addUserToTeamSchema>['body'];
+export type updateUserToTeamInput = TypeOf<typeof updateUserToTeamSchema>['body'];
 export type deleteTeamInput = TypeOf<typeof deleteTeamInputSchema>['params'];
