@@ -1,6 +1,9 @@
-import { Types } from "mongoose";
+import { omit } from "lodash";
+import mongoose, { Types } from "mongoose";
+import { excludedFields } from "../controllers/auth.controller";
 import teamModel, { Team } from "../models/team.model";
 import { User } from "../models/user.model";
+import { loginUserSchema } from "../schema/user.schema";
 import { APIError } from "../utils/APIError";
 
 // Create new team
@@ -12,7 +15,20 @@ export const createTeam = async (input: Partial<Team>) => {
 
 // Find All teams
 export const findAllTeams = async () => {
-    return await teamModel.find();
+
+    const teams = await teamModel.aggregate([
+        { $lookup: { from: 'users', localField: 'user', foreignField: 'id', as: 'users' } }, // Join
+        {
+            $project: { // Fields to exclude from users
+                'users.password': 0,
+                'users.role': 0,
+                'users.createdAt': 0,
+                'users.updatedAt': 0,
+            }
+        },
+    ]);
+
+    return teams;
 };
 
 // Delete team by id
@@ -53,6 +69,32 @@ export const deleteUser = async (teamName: String, user: Partial<User>) => {
 export const findTeamByName = async (teamName: string) => {
     return await teamModel.findOne({ name: teamName });
 };
+
+// Find team by id
+export const findTeamById = async (id: string) => {
+
+    // Check if the given id is valid
+    if (!isValidObjectId(id)) {
+        throw new APIError("Id is not valid", 422)
+    }
+
+    const teams = await teamModel.aggregate([
+        { $match: { _id: new mongoose.Types.ObjectId(id) } }, // Match id
+        { $lookup: { from: 'users', localField: 'user', foreignField: 'id', as: 'users' } }, // Join
+        {
+            $project: { // Fields to exclude from users table
+                'users.password': 0,
+                'users.role': 0,
+                'users.createdAt': 0,
+                'users.updatedAt': 0,
+            }
+        },
+
+    ]);
+
+    return teams;
+}
+
 
 // Fuction to check if the given id is a valid mongodb objectid
 const isValidObjectId = (id: string) => {
