@@ -16,17 +16,32 @@ export const createTeam = async (input: Partial<Team>) => {
 // Find All teams
 export const findAllTeams = async () => {
 
-    const teams = await teamModel.aggregate([
-        { $lookup: { from: 'users', localField: 'users', foreignField: '_id', as: 'users' } }, // Join
-        {
-            $project: { // Fields to exclude from users
-                'users.password': 0,
-                'users.role': 0,
-                'users.createdAt': 0,
-                'users.updatedAt': 0,
-            }
-        },
-    ]);
+    const teams = await teamModel.aggregate(
+        [
+            {
+                /**
+                 * from: The target collection.
+                 * localField: The local join field.
+                 * foreignField: The target join field.
+                 * as: The name for the results.
+                 * pipeline: Optional pipeline to run on the foreign collection.
+                 * let: Optional variables to use in the pipeline field stages.
+                 */
+                $lookup: {
+                    from: "users",
+                    localField: "users",
+                    foreignField: "_id",
+                    as: "users",
+                },
+            },
+            {
+                /**
+                 * Provide the field name to exclude.
+                 * To exclude multiple fields, pass the field names in an array.
+                 */
+                $unset: ["users.password", "users.role", "users.createdAt", "users.updatedAt"],
+            },
+        ]);
 
     return teams;
 };
@@ -79,23 +94,48 @@ export const findTeamById = async (id: string) => {
     }
 
     const teams = await teamModel.aggregate([
-        { $match: { _id: new mongoose.Types.ObjectId(id) } }, // Match id
-        { $lookup: { from: 'users', localField: 'users', foreignField: '_id', as: 'users' } }, // Join
         {
-            $project: { // Fields to exclude from users table
-                'users.password': 0,
-                'users.role': 0,
-                'users.createdAt': 0,
-                'users.updatedAt': 0,
-            }
+            /**
+             * query: The query in MQL.
+             */
+            $match: {
+                _id: new mongoose.Types.ObjectId(id),
+            },
         },
-
+        {
+            /**
+             * from: The target collection.
+             * localField: The local join field.
+             * foreignField: The target join field.
+             * as: The name for the results.
+             * pipeline: Optional pipeline to run on the foreign collection.
+             * let: Optional variables to use in the pipeline field stages.
+             */
+            $lookup: {
+                from: "users",
+                localField: "users",
+                foreignField: "_id",
+                as: "users",
+            },
+        },
+        {
+            /**
+             * Provide the field name to exclude.
+             * To exclude multiple fields, pass the field names in an array.
+             */
+            $unset: [
+                "users.password",
+                "users.role",
+                "users.createdAt",
+                "users.updatedAt",
+            ],
+        },
     ]);
 
     return teams;
 }
 
-// Check if users is a member of a given team
+// Check if a user is a member of a given team
 export const userIsMemberofTeam = async (teamName: string, user: Partial<User>) => {
     const result = await teamModel.find({ 'name': teamName, 'users': user })
     if (result.length === 0) {
