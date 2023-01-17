@@ -17,7 +17,7 @@ export const createTeam = async (input: Partial<Team>) => {
 export const findAllTeams = async () => {
 
     const teams = await teamModel.aggregate([
-        { $lookup: { from: 'users', localField: 'user', foreignField: 'id', as: 'users' } }, // Join
+        { $lookup: { from: 'users', localField: 'users', foreignField: '_id', as: 'users' } }, // Join
         {
             $project: { // Fields to exclude from users
                 'users.password': 0,
@@ -80,7 +80,7 @@ export const findTeamById = async (id: string) => {
 
     const teams = await teamModel.aggregate([
         { $match: { _id: new mongoose.Types.ObjectId(id) } }, // Match id
-        { $lookup: { from: 'users', localField: 'user', foreignField: 'id', as: 'users' } }, // Join
+        { $lookup: { from: 'users', localField: 'users', foreignField: '_id', as: 'users' } }, // Join
         {
             $project: { // Fields to exclude from users table
                 'users.password': 0,
