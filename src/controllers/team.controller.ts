@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { CreateTeamInput, deleteTeamInput, getTeamInput, updateUserToTeamInput } from '../schema/team.schema';
-import { addUser, createTeam, deleteTeamById, deleteUser, findAllTeams, findTeamById, findTeamByName } from '../services/team.service';
+import { addUser, createTeam, deleteTeamById, deleteUser, findAllTeams, findTeamById, findTeamByName, userIsMemberofTeam } from '../services/team.service';
 import { findUser } from '../services/user.service';
 
 export const getAllTeamsHandler = async (
@@ -135,6 +135,17 @@ export const addUserToTeamHandler = async (
         });
 
       }
+      // Check if user already in team
+      const isAlreadyMember = await userIsMemberofTeam(req.body.teamName, user);
+
+      if (isAlreadyMember) {
+        return res.status(404).json({
+          status: 'fail',
+          message: 'User already in team',
+        });
+
+      }
+
       const updatedTeam = await addUser(req.body.teamName, user)
 
       res.status(201).json({
@@ -179,8 +190,6 @@ export const deleteUserFromTeamHandler = async (
       // Get the user from the collection
       const user = await findUser({ email: req.body.email });
 
-      console.log(user);
-
       // Return 404 if the user does not exist
       if (!user) {
         return res.status(404).json({
@@ -189,6 +198,18 @@ export const deleteUserFromTeamHandler = async (
         });
 
       }
+
+      // Check if user exists in team
+      const userIsMemberOfTeam = await userIsMemberofTeam(req.body.teamName, user);
+
+      if (!userIsMemberOfTeam) {
+        return res.status(404).json({
+          status: 'fail',
+          message: 'User not in team',
+        });
+
+      }
+
       const updatedTeam = await deleteUser(req.body.teamName, user._id)
 
       res.status(201).json({

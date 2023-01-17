@@ -95,6 +95,16 @@ export const findTeamById = async (id: string) => {
     return teams;
 }
 
+// Check if users is a member of a given team
+export const userIsMemberofTeam = async (teamName: string, user: Partial<User>) => {
+    const result = await teamModel.find({ 'name': teamName, 'users': user })
+    if (result.length === 0) {
+        return false;
+    }
+    else {
+        return true;
+    }
+};
 
 // Fuction to check if the given id is a valid mongodb objectid
 const isValidObjectId = (id: string) => {
