@@ -2,6 +2,7 @@ import {omit} from 'lodash';
 import {Types} from "mongoose";
 import {APIError} from "../utils/APIError";
 import {DishCategory, dishCategoryModel} from "../models/dishCategory.model";
+import {mongoose} from "@typegoose/typegoose";
 
 export const createDishCategory = async (input: { updated_at: Date; created_at: Date; dishes: string[]; title: string }) => {
     const dishCategory = await dishCategoryModel.create(input);
@@ -13,7 +14,25 @@ export const findAndCheckDishCategoryById = async (id: string ) => {
         throw new APIError("Id is not valid", 422 )
     }
 
-    let dishCategory = await dishCategoryModel.findById(id).lean();
+    let dishCategory = await dishCategoryModel.aggregate([
+        {
+            /**
+             * query: The query in MQL.
+             */
+            $match: {
+                _id: new mongoose.Types.ObjectId(id),
+            },
+        },
+        {
+            $lookup: {
+                from: 'dishes',
+                localField: 'dishes',
+                foreignField: '_id',
+                as: 'dishes'
+            },
+        },
+    ]) as unknown as DishCategory;
+
     dishCategory = omit(dishCategory)
 
     if (!dishCategoryExists(dishCategory)) {
@@ -24,8 +43,19 @@ export const findAndCheckDishCategoryById = async (id: string ) => {
 };
 
 export const findAllDishCategories = async () => {
-    const dishCategory = await dishCategoryModel.find().lean();
-    return omit(dishCategory);
+    const dishCategories = await dishCategoryModel.aggregate(
+        [
+            {
+                $lookup: {
+                    from: 'dishes',
+                    localField: 'dishes',
+                    foreignField: '_id',
+                    as: 'dishes'
+                }
+            }
+        ]
+    )
+    return omit(dishCategories);
 };
 
 const dishCategoryExists = (dishCategory: DishCategory) => {
