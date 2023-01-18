@@ -16,20 +16,12 @@ export const findAndCheckDishCategoryById = async (id: string ) => {
 
     let dishCategory = await dishCategoryModel.aggregate([
         {
-            /**
-             * query: The query in MQL.
-             */
             $match: {
                 _id: new mongoose.Types.ObjectId(id),
             },
         },
         {
-            $lookup: {
-                from: 'dishes',
-                localField: 'dishes',
-                foreignField: '_id',
-                as: 'dishes'
-            },
+            $lookup: dishLookupQuery,
         },
     ]) as unknown as DishCategory;
 
@@ -46,12 +38,7 @@ export const findAllDishCategories = async () => {
     const dishCategories = await dishCategoryModel.aggregate(
         [
             {
-                $lookup: {
-                    from: 'dishes',
-                    localField: 'dishes',
-                    foreignField: '_id',
-                    as: 'dishes'
-                }
+                $lookup: dishLookupQuery
             }
         ]
     )
@@ -64,4 +51,11 @@ const dishCategoryExists = (dishCategory: DishCategory) => {
 
 const dishCategoryIdIsValid = (dishCategoryId: string) => {
     return Types.ObjectId.isValid(dishCategoryId)
+}
+
+const dishLookupQuery = {
+    from: 'dishes',
+    localField: 'dishes',
+    foreignField: '_id',
+    as: 'dishes'
 }

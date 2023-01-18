@@ -8,10 +8,6 @@ export const createIngredient = async (input: Ingredient) => {
     return ingredient.toJSON();
 };
 
-export const updateIngredient = async (ingredientId: string, input: Partial<Ingredient>) => {
-    return ingredientModel.findByIdAndUpdate(ingredientId, input);
-};
-
 export const findAndCheckIngredientById = async (id: string | Types.ObjectId ) => {
     if (!ingredientIdIsValid(id)) {
         throw new APIError("Id is not valid", 422 )
