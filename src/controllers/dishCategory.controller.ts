@@ -65,7 +65,7 @@ export const getDishCategoryHandler = async (
         if (err.code === 11000) {
             return res.status(409).json({
                 status: 'fail',
-                message: 'Could not find the desired dishCategorys',
+                message: 'Could not find the desired dishCategories',
             });
         }
         next(err);
