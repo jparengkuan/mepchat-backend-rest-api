@@ -62,4 +62,4 @@
 |                          |        |                          |                                                                                                                                                                                                                                                   |
 | <h3> User               |        |                          |                                                                               
 | Register              | POST   | /api/auth/register              | required: { "name": string, "email": string, "password" string, "passwordConfirm": string, "company": string }
- | Login              | POST   | /api/auth/register              | required: { "email": string, "password": string }
+ | Login              | POST   | /api/auth/login              | required: { "email": string, "password": string }
