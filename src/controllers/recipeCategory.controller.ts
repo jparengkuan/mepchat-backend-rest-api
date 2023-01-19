@@ -9,7 +9,7 @@ import {
 } from "../schema/recipeCategory.schema";
 import {RecipeCategory, recipeCategoryModel} from "../models/recipeCategory.model";
 import {
-    createRecipeCategory,
+    createRecipeCategory, deleteRecipeCategoryById,
     findAllRecipeCategories,
     findAndCheckRecipeCategoryById,
 } from "../services/recipeCategory.service";
@@ -153,10 +153,9 @@ export const deleteRecipeCategoryHandler = async (
 ) => {
     try {
         const recipeCategoryId: string = req.params.id;
-        const recipeCategoryModel = getModelForClass(RecipeCategory);
-        const recipeCategory = await findAndCheckRecipeCategoryById(recipeCategoryId);
+        await findAndCheckRecipeCategoryById(recipeCategoryId);
+        await deleteRecipeCategoryById(recipeCategoryId);
 
-        await recipeCategoryModel.deleteOne(recipeCategory)
         return res.status(201).json({
             status: 'success',
             data: {},

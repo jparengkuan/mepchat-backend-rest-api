@@ -3,6 +3,7 @@ import {Types} from "mongoose";
 import {APIError} from "../utils/APIError";
 import {RecipeCategory, recipeCategoryModel} from "../models/recipeCategory.model";
 import {mongoose} from "@typegoose/typegoose";
+import recipeModel from "../models/recipe.model";
 
 export const createRecipeCategory = async (input: { updated_at: Date; created_at: Date; recipes: string[]; title: string }) => {
     const recipeCategory = await recipeCategoryModel.create(input);
@@ -63,6 +64,10 @@ export const findAllRecipeCategories = async () => {
         ]
     )
     return omit(recipeCategories);
+};
+
+export const deleteRecipeCategoryById = async (id: string | Types.ObjectId) => {
+    await recipeCategoryModel.findByIdAndDelete(id)
 };
 
 const recipeCategoryExists = (recipeCategory: RecipeCategory) => {

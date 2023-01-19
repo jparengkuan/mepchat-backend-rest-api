@@ -27,8 +27,6 @@ export const findAndCheckRecipeById = async (id: string ) => {
         },
     ]) as unknown as Recipe;
 
-    recipe = omit(recipe)
-
     if (!recipeExists(recipe)) {
         throw new APIError("Could not find the desired recipe", 204)
     }
@@ -43,6 +41,10 @@ export const findAllRecipes = async () => {
         },
     ]) as unknown as Recipe;
     return omit(recipe);
+};
+
+export const deleteRecipeById = async (id: string | Types.ObjectId) => {
+    await recipeModel.findByIdAndDelete(id)
 };
 
 const recipeExists = (recipe: Recipe) => {

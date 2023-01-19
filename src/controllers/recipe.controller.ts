@@ -7,7 +7,7 @@ import {
     GetRecipeInput,
     UpdateRecipeInput,
 } from "../schema/recipe.schema";
-import {createRecipe, findAllRecipes, findAndCheckRecipeById} from "../services/recipe.service";
+import {createRecipe, deleteRecipeById, findAllRecipes, findAndCheckRecipeById} from "../services/recipe.service";
 import {Types} from "mongoose";
 import {findAndCheckIngredientById} from "../services/ingredient.service";
 
@@ -144,10 +144,9 @@ export const deleteRecipeHandler = async (
 ) => {
     try {
         const recipeId: string = req.params.id;
-        const recipeModel = getModelForClass(Recipe);
-        const recipe = await findAndCheckRecipeById(recipeId);
+        await findAndCheckRecipeById(recipeId);
 
-        await recipeModel.deleteOne(recipe)
+        await deleteRecipeById(recipeId)
         return res.status(201).json({
             status: 'success',
             data: {},

@@ -9,7 +9,7 @@ import {
 } from "../schema/mepList.schema";
 import {MepList, mepListModel} from "../models/mepList.model";
 import {
-    createMepList,
+    createMepList, deleteMepListById,
     findAllMepLists,
     findAndCheckMepListById,
 } from "../services/mepList.service";
@@ -137,10 +137,9 @@ export const deleteMepListHandler = async (
 ) => {
     try {
         const mepListId: string = req.params.id;
-        const mepListModel = getModelForClass(MepList);
-        const mepList = await findAndCheckMepListById(mepListId);
+        await findAndCheckMepListById(mepListId);
+        await deleteMepListById(mepListId);
 
-        await mepListModel.deleteOne(mepList)
         return res.status(201).json({
             status: 'success',
             data: {},
