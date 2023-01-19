@@ -36,12 +36,9 @@ export const findAndCheckRecipeCategoryById = async (id: string ) => {
         },
     ]) as unknown as RecipeCategory;
 
-    recipeCategory = omit(recipeCategory)
-
     if (!recipeCategoryExists(recipeCategory)) {
         throw new APIError("Could not find the desired recipeCategory", 204)
     }
-
     return recipeCategory;
 };
 
