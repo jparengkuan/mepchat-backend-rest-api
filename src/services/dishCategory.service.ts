@@ -25,8 +25,6 @@ export const findAndCheckDishCategoryById = async (id: string ) => {
         },
     ]) as unknown as DishCategory;
 
-    dishCategory = omit(dishCategory)
-
     if (!dishCategoryExists(dishCategory)) {
         throw new APIError("Could not find the desired dishCategory", 204)
     }

@@ -15,6 +15,7 @@ import mepTaskRoute from "./routes/mepTask.route";
 import ingredientRoute from "./routes/ingredient.route";
 import dishRoute from "./routes/dish.route";
 import dishCategoryRoute from "./routes/dishCategory.route";
+import recipeCategoryRoute from "./routes/recipeCategory.route";
 
 const app = express();
 
@@ -44,6 +45,9 @@ app.use('/api/teams', teamRouter);
 
 /** Recipe routes */
 app.use('/api/recipes', recipeRoute);
+
+/** RecipeCategory routes */
+app.use('/api/recipeCategory', recipeCategoryRoute);
 
 /** MepList routes */
 app.use('/api/meplist', mepListRoute);
