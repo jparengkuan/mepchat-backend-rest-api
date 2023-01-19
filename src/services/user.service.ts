@@ -1,4 +1,4 @@
-import { omit, get } from 'lodash';
+
 import { FilterQuery, QueryOptions } from 'mongoose';
 import config from 'config';
 import userModel, { User } from '../models/user.model';
@@ -6,6 +6,7 @@ import { excludedFields } from '../controllers/auth.controller';
 import { signJwt } from '../utils/jwt';
 import redisClient from '../utils/connectRedis';
 import { DocumentType } from '@typegoose/typegoose';
+import { omit } from 'lodash';
 
 // CreateUser service
 export const createUser = async (input: Partial<User>) => {
@@ -41,7 +42,15 @@ export const findUser = async (
 export const signToken = async (user: DocumentType<User>) => {
   // Sign the access token
   const access_token = signJwt(
-    { sub: user._id },
+    {
+      sub: {
+        '_id': user.id,
+        'name': user.name,
+        'email': user.email,
+        'company': user.company,
+        'role': user.role,
+      }
+    },
     {
       expiresIn: `${config.get<number>('accessTokenExpiresIn')}m`,
     }

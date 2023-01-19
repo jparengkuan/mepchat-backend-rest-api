@@ -1,9 +1,6 @@
-import { omit } from "lodash";
 import mongoose, { Types } from "mongoose";
-import { excludedFields } from "../controllers/auth.controller";
 import teamModel, { Team } from "../models/team.model";
 import { User } from "../models/user.model";
-import { loginUserSchema } from "../schema/user.schema";
 import { APIError } from "../utils/APIError";
 
 // Create new team
@@ -97,6 +94,7 @@ export const findTeamById = async (id: string) => {
         {
             /**
              * query: The query in MQL.
+             * params _id: The id of the team were looking fore
              */
             $match: {
                 _id: new mongoose.Types.ObjectId(id),
