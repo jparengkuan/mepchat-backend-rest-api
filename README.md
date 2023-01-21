@@ -64,8 +64,8 @@
 | Register              | POST   | /api/auth/register              | required: { "firstname": string, "lastname": "string", "email": string, "password" string, "passwordConfirm": string, "company": string }
  | Login              | POST   | /api/auth/login              | required: { "email": string, "password": string }
                                                                                                                                              |                                                                                                                                                                                                                                              
-|                          |        |                          |                                                                                                                                                                                                                                                   |
+
 | <h3> Use roles               |        |                          |                                                                               
-| Create user role              | POST   | /api/user/roles             | required: { "name": string } optional: {"description": string }
-| Delete user role          | DEL   | /api/user/roles/{id}             | required: { "id": string }
+| Create user role              | POST   | /api/user/roles             | required: { "name": string } optional: {"description": string } |
+| Delete user role          | DEL   | /api/user/roles/{id}             | required: { "id": string } | 
  
