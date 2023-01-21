@@ -45,7 +45,8 @@ export const signToken = async (user: DocumentType<User>) => {
     {
       sub: {
         '_id': user.id,
-        'name': user.name,
+        'firstname': user.firstname,
+        'lastname': user.lastname,
         'email': user.email,
         'company': user.company,
         'role': user.role,

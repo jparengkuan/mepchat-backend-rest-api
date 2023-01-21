@@ -5,8 +5,10 @@ import {
   modelOptions,
   pre,
   prop,
+  Ref,
 } from '@typegoose/typegoose';
 import bcrypt from 'bcryptjs';
+import { UserRole } from './userRole.model';
 
 @index({ email: 1 })
 @pre<User>('save', async function () {
@@ -26,7 +28,13 @@ import bcrypt from 'bcryptjs';
 // Export the User class to be used as TypeScript type
 export class User {
   @prop()
-  name: string;
+  firstname: string;
+
+  @prop()
+  lastname: string;
+
+  @prop()
+  company: string;
 
   @prop({ unique: true, required: true })
   email: string;
@@ -34,8 +42,8 @@ export class User {
   @prop({ required: true, minlength: 8, maxLength: 32, select: false })
   password: string;
 
-  @prop({ default: 'user' })
-  role: string;
+  @prop({ ref: () => UserRole })
+  role: Ref<UserRole>;
 
   // Instance method to check if passwords match
   async comparePasswords(hashedPassword: string, candidatePassword: string) {

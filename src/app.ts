@@ -10,6 +10,7 @@ import connectDB from './utils/connectDB';
 import userRouter from './routes/user.route';
 import authRouter from './routes/auth.route';
 import teamRouter from './routes/team.route';
+import userRoleRouter from './routes/userRole.route';
 import mepListRoute from "./routes/mepList.route";
 import mepTaskRoute from "./routes/mepTask.route";
 import ingredientRoute from "./routes/ingredient.route";
@@ -63,6 +64,9 @@ app.use('/api/dish', dishRoute);
 
 /** DishCategory routes */
 app.use('/api/dishCategory', dishCategoryRoute);
+
+/** User roles routes */
+app.use('/api/user/roles', userRoleRouter);
 
 // Testing
 app.get('/healthChecker', (req: Request, res: Response, next: NextFunction) => {
