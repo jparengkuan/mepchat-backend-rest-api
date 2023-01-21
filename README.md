@@ -65,6 +65,6 @@
  | Login              | POST   | /api/auth/login              | required: { "email": string, "password": string } |
 
   
-| <h3> Use roles               |        |                          |                                                                               
+| <h3> Use roles               |        |                          |              |                                                                 
 
  
