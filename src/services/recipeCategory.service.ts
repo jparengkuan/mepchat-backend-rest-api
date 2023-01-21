@@ -26,7 +26,8 @@ export const findAndCheckRecipeCategoryById = async (id: string ) => {
         },
         {
             $unwind: {
-                path: "$recipes"
+                path: "$recipes",
+                preserveNullAndEmptyArrays: true
             }
         },
         {
