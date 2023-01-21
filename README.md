@@ -63,7 +63,9 @@
 | Register                 | POST   | /api/auth/register       | required: { "firstname": string, "lastname": "string", "email": string, "password" string,"passwordConfirm": string, "company": string }
  | Login                 | POST     | /api/auth/login          | required: { "email": string, "password": string } |
 
-  
-| <h3> Use roles               |        |                          |              |                                                                 
+|                          |        |                          |      
+| <h3> User roles                |        |                          |                                                                               
+| Register                 | POST   | /api/auth/register       | required: { "firstname": string, "lastname": "string", "email": string, "password" string,"passwordConfirm": string, "company": string }
+ | Login                 | POST     | /api/auth/login          | required: { "email": string, "password": string } |
 
  
