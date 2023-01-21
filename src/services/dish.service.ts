@@ -13,8 +13,7 @@ export const findAndCheckDishById = async (id: string ) => {
         throw new APIError("Id is not valid", 422 )
     }
 
-    let dish = await dishModel.findById(id).lean();
-    dish = omit(dish)
+    let dish = await dishModel.findById(id).lean() as Dish;
 
     if (!dishExists(dish)) {
         throw new APIError("Could not find the desired dish", 204)
@@ -26,6 +25,10 @@ export const findAndCheckDishById = async (id: string ) => {
 export const findAllDishes = async () => {
     const dish = await dishModel.find().lean();
     return omit(dish);
+};
+
+export const deleteDishById = async (id: string | Types.ObjectId) => {
+    await dishModel.findByIdAndDelete(id)
 };
 
 const dishExists = (dish: Dish) => {

@@ -9,7 +9,7 @@ import {
 } from "../schema/dish.schema";
 import {Dish, dishModel} from "../models/dish.model";
 import {
-    createDish, findAllDishes,
+    createDish, deleteDishById, findAllDishes,
     findAndCheckDishById,
 } from "../services/dish.service";
 
@@ -137,10 +137,9 @@ export const deleteDishHandler = async (
 ) => {
     try {
         const dishId: string = req.params.id;
-        const dishModel = getModelForClass(Dish);
-        const dish = await findAndCheckDishById(dishId);
+        await findAndCheckDishById(dishId);
+        await deleteDishById(dishId);
 
-        await dishModel.deleteOne(dish)
         return res.status(201).json({
             status: 'success',
             data: {},

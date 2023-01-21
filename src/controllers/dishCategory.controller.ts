@@ -1,4 +1,3 @@
-import { getModelForClass } from '@typegoose/typegoose';
 import { NextFunction, Request, Response } from 'express';
 import {
     CreateDishCategoryInput,
@@ -9,7 +8,7 @@ import {
 } from "../schema/dishCategory.schema";
 import {DishCategory, dishCategoryModel} from "../models/dishCategory.model";
 import {
-    createDishCategory,
+    createDishCategory, deleteDishCategoryById,
     findAllDishCategories,
     findAndCheckDishCategoryById,
 } from "../services/dishCategory.service";
@@ -153,10 +152,9 @@ export const deleteDishCategoryHandler = async (
 ) => {
     try {
         const dishCategoryId: string = req.params.id;
-        const dishCategoryModel = getModelForClass(DishCategory);
-        const dishCategory = await findAndCheckDishCategoryById(dishCategoryId);
+        await findAndCheckDishCategoryById(dishCategoryId);
+        await deleteDishCategoryById(dishCategoryId);
 
-        await dishCategoryModel.deleteOne(dishCategory)
         return res.status(201).json({
             status: 'success',
             data: {},

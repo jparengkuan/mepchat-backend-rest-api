@@ -8,7 +8,7 @@ import {
     UpdateMepTaskInput
 } from "../schema/mepTask.schema";
 import {MepTask, mepTaskModel} from "../models/mepTask.model";
-import {createMepTask, findAllMepTasks, findAndCheckMepTaskById} from "../services/mepTask.service";
+import {createMepTask, deleteMepTaskById, findAllMepTasks, findAndCheckMepTaskById} from "../services/mepTask.service";
 import {Types} from "mongoose";
 
 export const createMepTaskHandler = async (
@@ -141,10 +141,9 @@ export const deleteMepTaskHandler = async (
 ) => {
     try {
         const mepTaskId: string = req.params.id;
-        const mepTaskModel = getModelForClass(MepTask);
-        const mepTask = await findAndCheckMepTaskById(mepTaskId);
+        await findAndCheckMepTaskById(mepTaskId);
+        await deleteMepTaskById(mepTaskId);
 
-        await mepTaskModel.deleteOne(mepTask)
         return res.status(201).json({
             status: 'success',
             data: {},

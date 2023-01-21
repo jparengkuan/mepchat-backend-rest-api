@@ -2,6 +2,7 @@ import {omit} from 'lodash';
 import {Types} from "mongoose";
 import {APIError} from "../utils/APIError";
 import {MepList, mepListModel} from "../models/mepList.model";
+import {ingredientModel} from "../models/ingredient.model";
 
 export const createMepList = async (input: MepList) => {
     const mepList = await mepListModel.create(input);
@@ -13,8 +14,7 @@ export const findAndCheckMepListById = async (id: string ) => {
         throw new APIError("Id is not valid", 422 )
     }
 
-    let mepList = await mepListModel.findById(id).lean();
-    mepList = omit(mepList)
+    let mepList = await mepListModel.findById(id).lean() as MepList;
 
     if (!mepListExists(mepList)) {
         throw new APIError("Could not find the desired mepList", 204)
@@ -26,6 +26,10 @@ export const findAndCheckMepListById = async (id: string ) => {
 export const findAllMepLists = async () => {
     const mepList = await mepListModel.find().lean();
     return omit(mepList);
+};
+
+export const deleteMepListById = async (id: string | Types.ObjectId) => {
+    await mepListModel.findByIdAndDelete(id)
 };
 
 const mepListExists = (mepList: MepList) => {

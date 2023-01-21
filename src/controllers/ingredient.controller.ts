@@ -9,7 +9,7 @@ import {
 } from "../schema/ingredient.schema";
 import {Ingredient, ingredientModel} from "../models/ingredient.model";
 import {
-    createIngredient,
+    createIngredient, deleteIngredientById,
     findAllIngredients,
     findAndCheckIngredientById,
 } from "../services/ingredient.service";
@@ -136,10 +136,9 @@ export const deleteIngredientHandler = async (
 ) => {
     try {
         const ingredientId: string = req.params.id;
-        const ingredientModel = getModelForClass(Ingredient);
-        const ingredient = await findAndCheckIngredientById(ingredientId);
+        await findAndCheckIngredientById(ingredientId);
+        await deleteIngredientById(ingredientId);
 
-        await ingredientModel.deleteOne(ingredient)
         return res.status(201).json({
             status: 'success',
             data: {},

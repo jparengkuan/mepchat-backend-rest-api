@@ -43,6 +43,10 @@ export const findAllDishCategories = async () => {
     return omit(dishCategories);
 };
 
+export const deleteDishCategoryById = async (id: string | Types.ObjectId) => {
+    await dishCategoryModel.findByIdAndDelete(id)
+};
+
 const dishCategoryExists = (dishCategory: DishCategory) => {
     return Object.keys(dishCategory).length !== 0
 }
