@@ -16,5 +16,6 @@ router.get('/', restrictTo('admin'), getAllUsersHandler);
 // Get my info route
 router.get('/me', getMeHandler);
 
+
 export default router;
 

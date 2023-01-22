@@ -22,3 +22,8 @@ export const deleteUserRole = async (id: string) => {
   return userRole?.toJSON;
 
 };
+
+// Find All user roles
+export const findAllUserRoles = async () => {
+  return await userRoleModel.find();
+};

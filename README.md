@@ -43,4 +43,4 @@ Register | POST | /api/auth/register | required: { "firstname": string, "lastnam
 
 ## User roles | | |
 
-Create role | GET | /api/user/roles/ | required: { "name": string } optional: {"description": string } Delete role | GET | /api/user/roles/{id} | required: { "id": string }
+Create role | POST | /api/user/roles/ | required: { "name": string } optional: {"description": string } Delete role | DELETE | /api/user/roles/{id} | required: { "id": string } Get all roles | GET | /api/user/roles/ |
