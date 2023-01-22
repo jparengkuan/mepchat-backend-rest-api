@@ -1,8 +1,6 @@
-import {omit} from 'lodash';
 import {Types} from "mongoose";
 import {APIError} from "../utils/APIError";
 import {MepList, mepListModel} from "../models/mepList.model";
-import {ingredientModel} from "../models/ingredient.model";
 
 export const createMepList = async (input: MepList) => {
     const mepList = await mepListModel.create(input);
@@ -24,8 +22,7 @@ export const findAndCheckMepListById = async (id: string ) => {
 };
 
 export const findAllMepLists = async () => {
-    const mepList = await mepListModel.find().lean();
-    return omit(mepList);
+    return mepListModel.find().lean();
 };
 
 export const deleteMepListById = async (id: string | Types.ObjectId) => {
