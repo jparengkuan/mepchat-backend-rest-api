@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
-import { CreateUserRoleInput } from '../schema/userRole.schema';
-import { createUserRole, deleteUserRole, findAllUserRoles } from '../services/userRole.service';
+import userRoleModel from '../models/userRole.model';
+import { CreateUserRoleInput, updateUserRoleInput } from '../schema/userRole.schema';
+import { createUserRole, deleteUserRole, findAllUserRoles, findUserRoleById } from '../services/userRole.service';
 
 export const createUserRoleHandler = async (
   req: Request<{}, {}, CreateUserRoleInput>,
@@ -67,3 +68,45 @@ export const getAllUserRolesHandler = async (
   }
 };
 
+export const updateUserRoleHandler = async (
+  req: Request<{ id: string }, {}, updateUserRoleInput>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+
+    const userRole = await findUserRoleById(req.params.id);
+
+    if (!userRole) {
+      return res.status(404).json({
+        status: 'fail',
+        message: 'Role with given id does not exist',
+      });
+    }
+
+
+    const role = await userRoleModel.findByIdAndUpdate(
+      {
+        _id: userRole.id
+      },
+      {
+        $set:
+        {
+          name: req.body.name,
+          description: req.body.description,
+          permissions: req.body.permissions
+        }
+      }
+    )
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        role,
+      },
+    });
+
+  } catch (err: any) {
+    next(err);
+  }
+};

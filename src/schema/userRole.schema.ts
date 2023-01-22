@@ -1,4 +1,5 @@
-import { object, string, TypeOf } from 'zod';
+import { object, string, TypeOf, z } from 'zod';
+import { PermissionsEnum } from '../models/userRole.model';
 
 export const createUserRoleSchema = object({
   body: object({
@@ -14,7 +15,18 @@ export const deleteUserRoleSchema = object({
 });
 
 
+export const updateUserRoleSchema = object({
+  body: object({
+    id: string().optional(),
+    name: string().optional(),
+    description: string().optional(),
+    permissions: z.nativeEnum(PermissionsEnum).array().optional()
+  }),
+});
+
+
 
 
 export type CreateUserRoleInput = TypeOf<typeof createUserRoleSchema>['body'];
 export type deleteUserRoleInput = TypeOf<typeof deleteUserRoleSchema>['params'];
+export type updateUserRoleInput = TypeOf<typeof updateUserRoleSchema>['body'];

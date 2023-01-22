@@ -6,6 +6,13 @@ import {
 } from '@typegoose/typegoose';
 import userModel from './user.model';
 
+export enum PermissionsEnum {
+
+  PERM1 = "PERM1",
+  PERM2 = "PERM2"
+
+}
+
 
 @pre<UserRole>('findOneAndDelete', async function () {
 
@@ -32,8 +39,8 @@ export class UserRole {
   @prop({ type: String })
   description: string;
 
-  @prop({ type: String, required: true, default: [] })
-  permissions!: mongoose.Types.Array<string>;
+  @prop({ type: String, enum: PermissionsEnum, default: [] })
+  permissions!: PermissionsEnum[];
 
 }
 
