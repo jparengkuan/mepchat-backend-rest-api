@@ -24,8 +24,7 @@ export const findAndCheckMepTaskById = async (id: string ) => {
 };
 
 export const findAllMepTasks = async () => {
-    const mepTask = await mepTaskModel.find().lean();
-    return omit(mepTask);
+    return mepTaskModel.find().lean();
 };
 
 export const deleteMepTaskById = async (id: string | Types.ObjectId) => {
