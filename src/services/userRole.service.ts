@@ -23,6 +23,19 @@ export const deleteUserRole = async (id: string) => {
 
 };
 
+// Find user role by id
+export const findUserRoleById = async (id: string) => {
+
+  if (!Types.ObjectId.isValid(id)) {
+    throw new APIError("Id is not valid", 422)
+  }
+
+  const userRole = await userRoleModel.findById(id);
+
+  return userRole;
+
+}
+
 // Find All user roles
 export const findAllUserRoles = async () => {
   return await userRoleModel.find();

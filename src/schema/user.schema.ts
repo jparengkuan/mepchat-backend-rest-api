@@ -30,5 +30,15 @@ export const loginUserSchema = object({
   }),
 });
 
+export const updateRoleOfUserSchema = object({
+  body: object({
+    email: string({ required_error: 'User email is required' }).email(
+      'Invalid email'
+    ),
+    roleId: string({ required_error: "Role id is required" })
+  }),
+});
+
 export type CreateUserInput = TypeOf<typeof createUserSchema>['body'];
 export type LoginUserInput = TypeOf<typeof loginUserSchema>['body'];
+export type updateRoleOfUserInput = TypeOf<typeof updateRoleOfUserSchema>['body'];

@@ -7,11 +7,25 @@ import { signJwt } from '../utils/jwt';
 import redisClient from '../utils/connectRedis';
 import { DocumentType } from '@typegoose/typegoose';
 import { omit } from 'lodash';
+import { UserRole } from '../models/userRole.model';
 
 // CreateUser service
 export const createUser = async (input: Partial<User>) => {
   const user = await userModel.create(input);
   return omit(user.toJSON(), excludedFields);
+};
+
+// Add Role to user
+export const updateRole = async (targetUser: Partial<User>, role: Partial<UserRole>) => {
+
+  const user = userModel.findOneAndUpdate(
+    { user: targetUser },
+    { role: role },
+
+  );
+
+  return user;
+
 };
 
 // Find User by Id
