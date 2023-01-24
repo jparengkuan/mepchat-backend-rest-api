@@ -7,12 +7,31 @@ import { signJwt } from '../utils/jwt';
 import redisClient from '../utils/connectRedis';
 import { DocumentType } from '@typegoose/typegoose';
 import { omit } from 'lodash';
-import { UserRole } from '../models/userRole.model';
+import userRoleModel, { UserRole } from '../models/userRole.model';
 
 // CreateUser service
 export const createUser = async (input: Partial<User>) => {
   const user = await userModel.create(input);
   return omit(user.toJSON(), excludedFields);
+};
+
+// Get permissions
+export const getUserPermissions = async (targetUser: Partial<User>) => {
+
+  const user = await userModel.findOne({ user: targetUser });
+
+  if (!user || !user.role) {
+    return;
+  }
+
+  const userRole = await userRoleModel.findById(user.role)
+
+  if (!userRole || !userRole.permissions) {
+    return;
+  }
+
+  return userRole.permissions;
+
 };
 
 // Add Role to user
@@ -72,7 +91,7 @@ export const signToken = async (user: DocumentType<User>) => {
   );
 
   // Create a Session
-  redisClient.set(JSON.stringify(user._id), JSON.stringify(user), {
+  redisClient.set(user.id, JSON.stringify(user), {
     EX: 60 * 60,
   });
 
