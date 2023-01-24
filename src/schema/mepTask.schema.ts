@@ -14,7 +14,7 @@ export const createMepTaskSchema = object({
         status: string().optional(),
         duration: number({required_error: 'Duration for a mepTask is required'}),
         mepList_id: object({}),
-        recipe_id: object({}).optional(),
+        recipe_id: string().optional(),
     }),
 });
 
