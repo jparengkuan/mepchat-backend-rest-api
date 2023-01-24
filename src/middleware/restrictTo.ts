@@ -19,8 +19,10 @@ export const checkPermissions =
   (...permissions: string[]) =>
     async (req: Request, res: Response, next: NextFunction) => {
 
+      // Get the user from the redis database
       const user = res.locals.user;
 
+      // Get all the permissions
       const userPermisions = await getUserPermissions(user);
 
       // @ts-ignore
@@ -29,5 +31,7 @@ export const checkPermissions =
           new AppError('You are not allowed to perform this action', 403)
         );
       }
-    }
+
+      next();
+    };
 

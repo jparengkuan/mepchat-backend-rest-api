@@ -92,7 +92,7 @@ export const signToken = async (user: DocumentType<User>) => {
 
   // Create a Session
   redisClient.set(user.id, JSON.stringify(user), {
-    EX: 60 * 60,
+    EX: 60 * config.get<number>('redisSessionExpiresIn'),
   });
 
   // Return access token

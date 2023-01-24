@@ -8,8 +8,10 @@ import userModel from './user.model';
 
 export enum PermissionsEnum {
 
-  PERM1 = "PERM1",
-  PERM2 = "PERM2"
+  USER_ROLE_CREATE = "USER_ROLE_CREATE",
+  USER_ROLE_EDIT = "USER_ROLE_EDIT",
+  USER_ROLE_DELETE = "USER_ROLE_DELETE",
+  USER_ROLE_VIEW = "USER_ROLE_VIEW"
 
 }
 
