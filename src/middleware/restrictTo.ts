@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import { getUserPermissions } from '../services/user.service';
 import AppError from '../utils/appError';
 
 export const restrictTo =
@@ -14,18 +15,19 @@ export const restrictTo =
       next();
     };
 
-export const hasPermission =
+export const checkPermissions =
   (...permissions: string[]) =>
-    (req: Request, res: Response, next: NextFunction) => {
+    async (req: Request, res: Response, next: NextFunction) => {
 
       const user = res.locals.user;
 
+      const userPermisions = await getUserPermissions(user);
 
-      if (!permissions.includes(user.role)) {
+      // @ts-ignore
+      if (!permissions.every(perm => userPermisions?.includes(perm))) {
         return next(
           new AppError('You are not allowed to perform this action', 403)
         );
       }
+    }
 
-      next();
-    };

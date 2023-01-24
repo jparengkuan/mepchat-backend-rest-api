@@ -32,8 +32,9 @@ export const deserializeUser = async (
       return next(new AppError(`Invalid token or user doesn't exist`, 401));
     }
 
+    // @ts-ignore
     // Check if user has a valid session
-    const session = await redisClient.get(decoded.sub);
+    const session = await redisClient.get(decoded.sub._id);
 
     if (!session) {
       return next(new AppError(`User session has expired`, 401));
@@ -52,6 +53,7 @@ export const deserializeUser = async (
 
     next();
   } catch (err: any) {
+    console.log(err)
     next(err);
   }
 };
