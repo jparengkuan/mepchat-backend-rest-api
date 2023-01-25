@@ -7,7 +7,7 @@ import {MepTask} from "./mepTask.model";
 export class MepList {
     _id?: mongoose.Types.ObjectId;
 
-    @prop({ unique: true, required: true })
+    @prop({ unique: false, required: true })
     title!: string;
 
     @prop({ required: true })

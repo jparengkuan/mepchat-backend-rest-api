@@ -6,7 +6,7 @@ import {Recipe} from "./recipe.model";
 export class Dish {
     _id?: mongoose.Types.ObjectId;
 
-    @prop({ unique: true, required: true })
+    @prop({ unique: false, required: true })
     title!: string;
 
     @prop({ required: false })
