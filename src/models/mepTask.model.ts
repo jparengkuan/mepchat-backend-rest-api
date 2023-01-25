@@ -8,10 +8,10 @@ import {flatten} from "lodash";
 export class MepTask {
     _id?: mongoose.Types.ObjectId;
 
-    @prop({ unique: true, required: true })
+    @prop({ unique: false, required: true })
     title!: string;
 
-    @prop({ unique: true, required: false })
+    @prop({ unique: false, required: false })
     description?: string;
 
     @prop({default: new Date(), required: true })
