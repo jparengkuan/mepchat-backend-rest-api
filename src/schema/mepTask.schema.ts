@@ -13,7 +13,7 @@ export const createMepTaskSchema = object({
         due_datetime: z.string({ required_error: 'Due datetime for a mepTask is required'}).transform((a) => new Date(a)) ,
         status: string().optional(),
         duration: number({required_error: 'Duration for a mepTask is required'}),
-        mepList_id: object({}),
+        mepList_id: string({required_error: 'mepList for a mepTask is required'}),
         recipe_id: string().optional(),
     }),
 });
@@ -34,8 +34,8 @@ export const updateMepTaskSchema = object({
         due_datetime: date().optional(),
         status: string().optional(),
         duration: number().optional(),
-        mepList_id: object({}).optional(),
-        recipe_id: object({}).optional(),
+        mepList_id: string().optional(),
+        recipe_id: string().optional(),
     }),
 });
 
