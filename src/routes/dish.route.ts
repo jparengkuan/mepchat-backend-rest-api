@@ -8,14 +8,13 @@ import {
 } from "../schema/dish.schema";
 import {
     createDishHandler,
-    deleteDishHandler,
-    getAllDishsHandler,
+    deleteDishHandler, getAllDishesHandler,
     getDishHandler, updateDishHandler
 } from "../controllers/dish.controller";
 
 const router = express.Router();
 
-router.get('/', validate(getAllDishesSchema), getAllDishsHandler);
+router.get('/', validate(getAllDishesSchema), getAllDishesHandler);
 router.get('/:id', validate(getDishSchema), getDishHandler);
 router.post('/', validate(createDishSchema), createDishHandler);
 router.patch('/:id', validate(updateDishSchema), updateDishHandler);

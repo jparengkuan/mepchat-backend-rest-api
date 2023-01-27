@@ -13,7 +13,7 @@ export class Dish {
     feature?: string;
 
     @prop({ required: false })
-    image?: string;
+    image?: string | Buffer;
 
     @prop({ required: false })
     description?: string;

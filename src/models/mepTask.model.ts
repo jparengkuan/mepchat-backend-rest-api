@@ -1,7 +1,6 @@
 import {getModelForClass, index, mongoose, prop, Ref} from "@typegoose/typegoose";
 import {MepList} from "./mepList.model";
 import {Recipe} from "./recipe.model";
-import {flatten} from "lodash";
 
 @index({ name: 1})
 

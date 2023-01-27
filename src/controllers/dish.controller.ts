@@ -1,4 +1,3 @@
-import { getModelForClass } from '@typegoose/typegoose';
 import { NextFunction, Request, Response } from 'express';
 import {
     CreateDishInput,
@@ -19,12 +18,14 @@ export const createDishHandler = async (
     next: NextFunction
 ) => {
     try {
+        const encodedImage = req.body.image;
+
         const dish = await createDish({
             title: req.body.title!,
             description: req.body.description,
-            image: req.body.image,
+            image: getEncodedImage(encodedImage!),
             feature: req.body.feature,
-        })
+        });
 
         res.status(201).json({
             status: 'success',
@@ -67,7 +68,7 @@ export const getDishHandler = async (
     }
 }
 
-export const getAllDishsHandler = async (
+export const getAllDishesHandler = async (
     req: Request<{}, {}, GetAllDishesInput>,
     res: Response,
     next: NextFunction
@@ -153,4 +154,9 @@ export const deleteDishHandler = async (
         }
         next(err);
     }
+}
+
+function getEncodedImage(img: string) {
+    if (img) return Buffer.from(img, 'base64');
+    return ''
 }
