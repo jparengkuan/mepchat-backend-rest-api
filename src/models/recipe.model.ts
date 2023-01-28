@@ -8,7 +8,7 @@ import {Ingredient} from "./ingredient.model";
 export class Recipe {
     _id?: mongoose.Types.ObjectId;
 
-    @prop({ unique: true, required: true })
+    @prop({ unique: false, required: true })
     title!: string;
 
     @prop({ required: true })

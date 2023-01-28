@@ -1,4 +1,3 @@
-import { getModelForClass } from '@typegoose/typegoose';
 import { NextFunction, Request, Response } from 'express';
 import {
     CreateDishInput,
@@ -12,6 +11,8 @@ import {
     createDish, deleteDishById, findAllDishes,
     findAndCheckDishById,
 } from "../services/dish.service";
+import {Types} from "mongoose";
+import {findAndCheckRecipeById} from "../services/recipe.service";
 
 export const createDishHandler = async (
     req: Request<{}, {}, CreateDishInput>,
@@ -19,12 +20,17 @@ export const createDishHandler = async (
     next: NextFunction
 ) => {
     try {
+        const encodedImage = req.body.image;
+        const recipesReq = req.body.recipes as unknown as Types.ObjectId[];
+        await validateRecipesIds(recipesReq);
+
         const dish = await createDish({
             title: req.body.title!,
             description: req.body.description,
-            image: req.body.image,
+            image: getEncodedImage(encodedImage!),
             feature: req.body.feature,
-        })
+            recipes: recipesReq
+        });
 
         res.status(201).json({
             status: 'success',
@@ -67,7 +73,7 @@ export const getDishHandler = async (
     }
 }
 
-export const getAllDishsHandler = async (
+export const getAllDishesHandler = async (
     req: Request<{}, {}, GetAllDishesInput>,
     res: Response,
     next: NextFunction
@@ -105,12 +111,15 @@ export const updateDishHandler = async (
     try {
         const dishId = req.params.id;
         await findAndCheckDishById(dishId!);
+        const recipesReq = req.body.recipes as unknown as Types.ObjectId[];
+        await validateRecipesIds(recipesReq);
 
         const receivedDish: Dish = {
             title: req.body.title!,
             description: req.body.description,
             image: req.body.image,
             feature: req.body.feature,
+            recipes: recipesReq,
         }
 
         const updatedDish = await dishModel.updateOne({_id: dishId}, receivedDish)
@@ -152,5 +161,18 @@ export const deleteDishHandler = async (
             });
         }
         next(err);
+    }
+}
+
+function getEncodedImage(img: string) {
+    if (img) return Buffer.from(img, 'base64');
+    return ''
+}
+
+async function validateRecipesIds(ids: string[] | Types.ObjectId[]) {
+    if (ids.length) {
+        for (const recipeId of ids) {
+            await findAndCheckRecipeById(recipeId);
+        }
     }
 }

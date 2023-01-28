@@ -6,7 +6,7 @@ import {Dish} from "./dish.model";
 export class DishCategory {
     _id?: mongoose.Types.ObjectId;
 
-    @prop({ unique: true, required: true })
+    @prop({ unique: false, required: true })
     title!: string;
 
     @prop({required: false, default: new Date() })

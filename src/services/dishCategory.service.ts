@@ -1,4 +1,3 @@
-import {omit} from 'lodash';
 import {Types} from "mongoose";
 import {APIError} from "../utils/APIError";
 import {DishCategory, dishCategoryModel} from "../models/dishCategory.model";
@@ -33,14 +32,13 @@ export const findAndCheckDishCategoryById = async (id: string ) => {
 };
 
 export const findAllDishCategories = async () => {
-    const dishCategories = await dishCategoryModel.aggregate(
+    return dishCategoryModel.aggregate(
         [
             {
                 $lookup: dishLookupQuery
             }
         ]
-    )
-    return omit(dishCategories);
+    );
 };
 
 export const deleteDishCategoryById = async (id: string | Types.ObjectId) => {

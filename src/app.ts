@@ -23,7 +23,7 @@ const app = express();
 // Middleware
 
 // 1. Body Parser
-app.use(express.json({ limit: '10kb' }));
+app.use(express.json({ limit: '20mb' }));
 
 // 2. Cookie Parser
 app.use(cookieParser());

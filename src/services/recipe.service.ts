@@ -1,5 +1,4 @@
 import recipeModel, {Recipe} from "../models/recipe.model";
-import {omit} from 'lodash';
 import {Types} from "mongoose";
 import {APIError} from "../utils/APIError";
 import {mongoose} from "@typegoose/typegoose";
@@ -11,7 +10,7 @@ export const createRecipe = async (input: Partial<Recipe>) => {
 };
 
 // Find recipe by Id
-export const findAndCheckRecipeById = async (id: string ) => {
+export const findAndCheckRecipeById = async (id: string | Types.ObjectId) => {
     if (!recipeIdIsValid(id)) {
         throw new APIError("Id is not valid", 422 )
     }
@@ -35,12 +34,11 @@ export const findAndCheckRecipeById = async (id: string ) => {
 };
 
 export const findAllRecipes = async () => {
-    let recipe = await recipeModel.aggregate([
+    return recipeModel.aggregate([
         {
             $lookup: ingredientLookupQuery,
         },
-    ]) as unknown as Recipe;
-    return omit(recipe);
+    ]);
 };
 
 export const deleteRecipeById = async (id: string | Types.ObjectId) => {
@@ -51,7 +49,7 @@ const recipeExists = (recipe: Recipe) => {
     return Object.keys(recipe).length !== 0
 }
 
-const recipeIdIsValid = (recipeId: string) => {
+const recipeIdIsValid = (recipeId: string | Types.ObjectId) => {
     return Types.ObjectId.isValid(recipeId)
 }
 

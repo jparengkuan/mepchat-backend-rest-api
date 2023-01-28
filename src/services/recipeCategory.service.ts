@@ -1,9 +1,7 @@
-import {omit} from 'lodash';
 import {Types} from "mongoose";
 import {APIError} from "../utils/APIError";
 import {RecipeCategory, recipeCategoryModel} from "../models/recipeCategory.model";
 import {mongoose} from "@typegoose/typegoose";
-import recipeModel from "../models/recipe.model";
 
 export const createRecipeCategory = async (input: { updated_at: Date; created_at: Date; recipes: string[]; title: string }) => {
     const recipeCategory = await recipeCategoryModel.create(input);
@@ -45,7 +43,7 @@ export const findAndCheckRecipeCategoryById = async (id: string ) => {
 };
 
 export const findAllRecipeCategories = async () => {
-    const recipeCategories = await recipeCategoryModel.aggregate(
+    return recipeCategoryModel.aggregate(
         [
             {
                 $lookup: recipeLookupQuery
@@ -63,8 +61,7 @@ export const findAllRecipeCategories = async () => {
                 $group: groupRecipesQuery
             },
         ]
-    )
-    return omit(recipeCategories);
+    );
 };
 
 export const deleteRecipeCategoryById = async (id: string | Types.ObjectId) => {

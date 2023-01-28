@@ -7,10 +7,10 @@ import {Recipe} from "./recipe.model";
 export class MepTask {
     _id?: mongoose.Types.ObjectId;
 
-    @prop({ unique: true, required: true })
+    @prop({ unique: false, required: true })
     title!: string;
 
-    @prop({ unique: true, required: false })
+    @prop({ unique: false, required: false })
     description?: string;
 
     @prop({default: new Date(), required: true })
@@ -26,7 +26,7 @@ export class MepTask {
     @prop({ required: true, ref: () => MepList })
     mepList_id!: Ref<MepList>;
 
-    @prop({ required: true, ref: () => Recipe })
+    @prop({ required: false, ref: () => Recipe })
     recipe_id?: Ref<Recipe>;
 }
 

@@ -5,7 +5,7 @@ import {getModelForClass, index, mongoose, prop} from "@typegoose/typegoose";
 export class Ingredient {
     _id?: mongoose.Types.ObjectId;
 
-    @prop({ unique: true, required: true })
+    @prop({ unique: false, required: true })
     title!: string;
 
     @prop({ required: true })

@@ -1,4 +1,3 @@
-import {omit} from 'lodash';
 import {Types} from "mongoose";
 import {APIError} from "../utils/APIError";
 import {Dish, dishModel} from "../models/dish.model";
@@ -23,8 +22,7 @@ export const findAndCheckDishById = async (id: string ) => {
 };
 
 export const findAllDishes = async () => {
-    const dish = await dishModel.find().lean();
-    return omit(dish);
+    return dishModel.find().lean();
 };
 
 export const deleteDishById = async (id: string | Types.ObjectId) => {
