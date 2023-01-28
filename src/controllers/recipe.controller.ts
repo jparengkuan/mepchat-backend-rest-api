@@ -164,8 +164,8 @@ export const deleteRecipeHandler = async (
 
 async function validateIngredientsIds(ids: string[] | Types.ObjectId[]) {
     if (ids.length) {
-        for (const dishId of ids) {
-            await findAndCheckIngredientById(dishId);
+        for (const ingredientId of ids) {
+            await findAndCheckIngredientById(ingredientId);
         }
     }
 }

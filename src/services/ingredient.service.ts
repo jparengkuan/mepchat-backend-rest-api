@@ -1,15 +1,13 @@
-import {omit} from 'lodash';
 import {Types} from "mongoose";
 import {APIError} from "../utils/APIError";
 import {Ingredient, ingredientModel} from "../models/ingredient.model";
-import {dishCategoryModel} from "../models/dishCategory.model";
 
 export const createIngredient = async (input: Ingredient) => {
     const ingredient = await ingredientModel.create(input);
     return ingredient.toJSON();
 };
 
-export const findAndCheckIngredientById = async (id: string | Types.ObjectId ) => {
+export const findAndCheckIngredientById = async (id: string | Types.ObjectId) => {
     if (!ingredientIdIsValid(id)) {
         throw new APIError("Id is not valid", 422 )
     }
@@ -24,8 +22,7 @@ export const findAndCheckIngredientById = async (id: string | Types.ObjectId ) =
 };
 
 export const findAllIngredients = async () => {
-    const ingredient = await ingredientModel.find().lean();
-    return omit(ingredient);
+    return ingredientModel.find().lean();
 };
 
 export const deleteIngredientById = async (id: string | Types.ObjectId) => {

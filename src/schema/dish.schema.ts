@@ -1,4 +1,4 @@
-import { object, string, TypeOf } from 'zod';
+import {object, string, TypeOf, z} from 'zod';
 
 const params = {
     params: object({
@@ -12,6 +12,7 @@ export const createDishSchema = object({
         description: string().optional(),
         feature: string().optional(),
         image: string().optional(),
+        recipes: z.string().array().optional(),
     }),
 });
 
@@ -29,6 +30,7 @@ export const updateDishSchema = object({
         description: string().optional(),
         feature: string().optional(),
         image: string().optional(),
+        recipes: z.string().array().optional(),
     }),
 });
 
