@@ -46,7 +46,7 @@ export const deleteDishCategoryById = async (id: string | Types.ObjectId) => {
 };
 
 const dishCategoryExists = (dishCategory: DishCategory) => {
-    return Object.keys(dishCategory).length !== 0
+    return dishCategory && Object.keys(dishCategory).length !== 0
 }
 
 const dishCategoryIdIsValid = (dishCategoryId: string) => {

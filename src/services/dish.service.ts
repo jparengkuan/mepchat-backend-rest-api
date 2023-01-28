@@ -30,7 +30,7 @@ export const deleteDishById = async (id: string | Types.ObjectId) => {
 };
 
 const dishExists = (dish: Dish) => {
-    return Object.keys(dish).length !== 0
+    return dish && Object.keys(dish).length !== 0
 }
 
 const dishIdIsValid = (dishId: string) => {

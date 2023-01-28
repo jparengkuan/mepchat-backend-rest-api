@@ -106,7 +106,6 @@ export const updateMepTaskHandler = async (
     try {
         let mepTaskId = req.params.id;
         await findAndCheckMepTaskById(mepTaskId!);
-
         const receivedMepTask: MepTask = {
             title: req.body.title!,
             description: req.body.description,

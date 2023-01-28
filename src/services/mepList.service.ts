@@ -30,7 +30,7 @@ export const deleteMepListById = async (id: string | Types.ObjectId) => {
 };
 
 const mepListExists = (mepList: MepList) => {
-    return Object.keys(mepList).length !== 0
+    return mepList && Object.keys(mepList).length !== 0
 }
 
 const mepListIdIsValid = (mepListId: string) => {
