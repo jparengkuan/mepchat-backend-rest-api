@@ -8,6 +8,7 @@ import {
   Ref,
 } from '@typegoose/typegoose';
 import bcrypt from 'bcryptjs';
+import { Team } from './team.model';
 import { UserRole } from './userRole.model';
 
 @index({ email: 1 })
@@ -44,6 +45,7 @@ export class User {
 
   @prop({ ref: () => UserRole, default: null })
   role: Ref<UserRole>;
+
 
   // Instance method to check if passwords match
   async comparePasswords(hashedPassword: string, candidatePassword: string) {

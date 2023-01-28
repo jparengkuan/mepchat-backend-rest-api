@@ -1,4 +1,5 @@
 import { object, string, TypeOf, z } from 'zod';
+import teamModel from '../models/team.model';
 import { PermissionsEnum } from '../models/userRole.model';
 
 export const createUserRoleSchema = object({
@@ -20,7 +21,8 @@ export const updateUserRoleSchema = object({
     id: string().optional(),
     name: string().optional(),
     description: string().optional(),
-    permissions: z.nativeEnum(PermissionsEnum).array().optional()
+    permissions: z.nativeEnum(PermissionsEnum).array().optional(),
+    team: string().optional()
   }),
 });
 

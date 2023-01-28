@@ -3,7 +3,9 @@ import {
   mongoose,
   pre,
   prop,
+  Ref,
 } from '@typegoose/typegoose';
+import { Team } from './team.model';
 import userModel from './user.model';
 
 export enum PermissionsEnum {
@@ -44,6 +46,8 @@ export class UserRole {
   @prop({ type: String, enum: PermissionsEnum, default: [] })
   permissions!: PermissionsEnum[];
 
+  @prop({ ref: 'Team', default: null })
+  team: Ref<Team>;
 }
 
 // Create the userRole model from the User class

@@ -1,7 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
+import { Types } from 'mongoose';
+import teamModel from '../models/team.model';
 import userRoleModel from '../models/userRole.model';
 import { CreateUserRoleInput, updateUserRoleInput } from '../schema/userRole.schema';
+import { findTeamById } from '../services/team.service';
 import { createUserRole, deleteUserRole, findAllUserRoles, findUserRoleById } from '../services/userRole.service';
+import { APIError } from '../utils/APIError';
 
 export const createUserRoleHandler = async (
   req: Request<{}, {}, CreateUserRoleInput>,
@@ -84,6 +88,23 @@ export const updateUserRoleHandler = async (
       });
     }
 
+    if (req.body.team) {
+
+      console.log("finding team")
+
+      const team = await findTeamById(req.body.team)
+
+      if (team.length === 0) {
+        return res.status(404).json({
+          status: 'fail',
+          message: 'Team with given id does not exist',
+        });
+      }
+    }
+
+    console.log(req.body.team)
+
+
 
     const role = await userRoleModel.findByIdAndUpdate(
       {
@@ -94,7 +115,8 @@ export const updateUserRoleHandler = async (
         {
           name: req.body.name,
           description: req.body.description,
-          permissions: req.body.permissions
+          permissions: req.body.permissions,
+          team: req.body.team
         }
       }
     )
