@@ -1,5 +1,6 @@
 import express from 'express';
 import {
+  getAllTeamsHandler,
   getAllUsersHandler,
   getMeHandler,
   updateRoleOfUserHandler,
@@ -11,10 +12,13 @@ import { validate } from '../middleware/validate';
 import { updateRoleOfUserSchema } from '../schema/user.schema';
 
 const router = express.Router();
-//router.use(deserializeUser, requireUser);
+router.use(deserializeUser, requireUser);
 
 // Admin Get Users route
 router.get('/', restrictTo('admin'), getAllUsersHandler);
+
+// Get all teams where the user is in
+router.get('/teams', getAllTeamsHandler);
 
 // Get my info route
 router.get('/me', getMeHandler);

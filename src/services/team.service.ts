@@ -10,6 +10,54 @@ export const createTeam = async (input: Partial<Team>) => {
     return team.toJSON();
 };
 
+export const findAllTeamsFromUser = async (userId: string) => {
+
+    const teams = await teamModel.aggregate(
+
+        [
+            {
+                /**
+                 * from: The target collection.
+                 * localField: The local join field.
+                 * foreignField: The target join field.
+                 * as: The name for the results.
+                 * pipeline: Optional pipeline to run on the foreign collection.
+                 * let: Optional variables to use in the pipeline field stages.
+                 */
+                $lookup: {
+                    from: "users",
+                    localField: "users",
+                    foreignField: "_id",
+                    as: "users",
+                },
+            },
+            {
+                /**
+                 * query: The query in MQL.
+                 */
+                $match: {
+                    "users._id": new mongoose.Types.ObjectId(userId),
+                },
+            },
+            {
+                /**
+                 * Provide the field name to exclude.
+                 * To exclude multiple fields, pass the field names in an array.
+                 */
+                $unset: [
+                    "users.password",
+                    "users.role",
+                    "users.createdAt",
+                    "users.updatedAt",
+                ],
+            },
+        ]
+    );
+
+    return teams;
+
+};
+
 // Find All teams
 export const findAllTeams = async () => {
 

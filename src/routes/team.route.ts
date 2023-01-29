@@ -7,7 +7,7 @@ import { createTeamSchema, deleteTeamInputSchema, getTeamInputSchema, updateUser
 //import { restrictTo } from '../middleware/restrictTo';
 
 const router = express.Router();
-//router.use(deserializeUser, requireUser);
+router.use(deserializeUser, requireUser);
 
 // Create new team route
 router.post('/', validate(createTeamSchema), newTeamHandler);

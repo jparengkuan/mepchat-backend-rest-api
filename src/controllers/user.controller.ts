@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { updateRoleOfUserInput } from '../schema/user.schema';
+import { findAllTeamsFromUser } from '../services/team.service';
 import { findAllUsers, findUserByEmail, updateRole } from '../services/user.service';
 import { findUserRoleById } from '../services/userRole.service';
 
@@ -14,6 +15,30 @@ export const getMeHandler = (
       status: 'success',
       data: {
         user,
+      },
+    });
+  } catch (err: any) {
+    next(err);
+  }
+};
+
+export const getAllTeamsHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const userId = res.locals.user._id;
+
+    const teams = await findAllTeamsFromUser(userId);
+
+    console.log(userId)
+    console.log(teams)
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        teams,
       },
     });
   } catch (err: any) {

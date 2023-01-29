@@ -8,7 +8,7 @@ import { validate } from '../middleware/validate';
 import { createUserRoleSchema, deleteUserRoleSchema, updateUserRoleSchema } from '../schema/userRole.schema';
 
 const router = express.Router();
-//router.use(deserializeUser, requireUser);
+router.use(deserializeUser, requireUser);
 
 // Get all user roles
 router.get('/', checkPermissions('USER_ROLE_VIEW'), getAllUserRolesHandler)
