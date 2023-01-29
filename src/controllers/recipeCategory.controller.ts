@@ -28,7 +28,7 @@ export const createRecipeCategoryHandler = async (
             recipes: recipesReq,
             title: req.body.title!,
             created_at: new Date(),
-            updated_at: new Date()
+            updated_at: new Date(),
         })
 
         res.status(201).json({
@@ -121,6 +121,8 @@ export const updateRecipeCategoryHandler = async (
                 updated_at: new Date(),
                 // @ts-ignore
                 recipes: recipesReq,
+                archive_at: req.body.archived_at,
+                deleted_at: req.body.deleted_at,
             }
         } else {
             receivedRecipeCategory = {
