@@ -84,8 +84,11 @@ export const newTeamHandler = async (
   next: NextFunction
 ) => {
   try {
+    const userId = res.locals.user._id;
+
     const team = await createTeam({
       name: req.body.name,
+      users: userId
     });
 
     res.status(201).json({
