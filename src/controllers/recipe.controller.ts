@@ -24,6 +24,7 @@ export const newRecipeHandler = async (
             volume: req.body.volume,
             preparation: req.body.preparation,
             unit: req.body.unit,
+            archived_at: req.body.archived_at,
             updated_at: new Date(),
             ingredients: ingredientsReq,
         });
@@ -116,6 +117,7 @@ export const updateRecipeHandler = async (
             preparation: req.body.preparation,
             unit: req.body.unit,
             updated_at: new Date(),
+            archived_at: req.body.archived_at,
             ingredients: ingredientsReq,
         };
 
