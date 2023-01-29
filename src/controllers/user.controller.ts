@@ -32,9 +32,6 @@ export const getAllTeamsHandler = async (
 
     const teams = await findAllTeamsFromUser(userId);
 
-    console.log(userId)
-    console.log(teams)
-
     res.status(200).json({
       status: 'success',
       data: {

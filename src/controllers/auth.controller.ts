@@ -3,6 +3,7 @@ import { CookieOptions, NextFunction, Request, Response } from 'express';
 import { CreateUserInput, LoginUserInput } from '../schema/user.schema';
 import { createUser, findUser, signToken } from '../services/user.service';
 import AppError from '../utils/appError';
+import redisClient from '../utils/connectRedis';
 
 // Exclude this fields from the response
 export const excludedFields = ['password'];
@@ -20,6 +21,39 @@ const accessTokenCookieOptions: CookieOptions = {
 // Only set secure to true in production
 if (process.env.NODE_ENV === 'production')
   accessTokenCookieOptions.secure = true;
+
+export const logoutHandler = async (
+  req: Request<{}, {}, {}>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+
+    // Get the token
+    let access_token;
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith('Bearer')
+    ) {
+      access_token = req.headers.authorization.split(' ')[1];
+    } else if (req.cookies.access_token) {
+      access_token = req.cookies.access_token;
+    }
+
+    if (!access_token) {
+      return next(new AppError('You are not logged in', 401));
+    }
+
+    //Add JWT to blacklist
+    redisClient.lPush("blacklist", access_token);
+
+    res.status(201).json({
+      status: 'success',
+    });
+  } catch (err: any) {
+    next(err);
+  }
+};
 
 export const registerHandler = async (
   req: Request<{}, {}, CreateUserInput>,
