@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import { token } from 'morgan';
 import { findUserById } from '../services/user.service';
 import AppError from '../utils/appError';
 import redisClient from '../utils/connectRedis';
@@ -30,6 +31,13 @@ export const deserializeUser = async (
 
     if (!decoded) {
       return next(new AppError(`Invalid token or user doesn't exist`, 401));
+    }
+
+    //Check if the JWT Token is blacklisted
+    let blacklist = await redisClient.lRange('blacklist', 0, -1);
+
+    if (blacklist.includes(access_token)) {
+      return next(new AppError(`Token is blacklisted`, 401));
     }
 
     // @ts-ignore
