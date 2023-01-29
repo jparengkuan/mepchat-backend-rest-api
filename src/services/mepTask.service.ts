@@ -30,7 +30,7 @@ export const deleteMepTaskById = async (id: string | Types.ObjectId) => {
 };
 
 const mepTaskExists = (mepTask: MepTask) => {
-    return Object.keys(mepTask).length !== 0
+    return mepTask && Object.keys(mepTask).length !== 0
 }
 
 const mepTaskIdIsValid = (mepTaskId: string) => {

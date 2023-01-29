@@ -46,7 +46,7 @@ export const deleteRecipeById = async (id: string | Types.ObjectId) => {
 };
 
 const recipeExists = (recipe: Recipe) => {
-    return Object.keys(recipe).length !== 0
+    return recipe && Object.keys(recipe).length !== 0
 }
 
 const recipeIdIsValid = (recipeId: string | Types.ObjectId) => {

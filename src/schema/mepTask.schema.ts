@@ -1,4 +1,4 @@
-import {date, number, object, string, TypeOf, z} from 'zod';
+import {number, object, string, TypeOf, z} from 'zod';
 
 const params = {
     params: object({
@@ -31,7 +31,7 @@ export const updateMepTaskSchema = object({
         _id: string().optional(),
         title: string().optional(),
         description: string().optional(),
-        due_datetime: date().optional(),
+        due_datetime: z.string().transform((a) => new Date(a)).optional(),
         status: string().optional(),
         duration: number().optional(),
         mepList_id: string().optional(),

@@ -30,7 +30,7 @@ export const deleteIngredientById = async (id: string | Types.ObjectId) => {
 };
 
 const ingredientExists = (ingredient: Ingredient) => {
-    return Object.keys(ingredient).length !== 0
+    return ingredient && Object.keys(ingredient).length !== 0
 }
 
 const ingredientIdIsValid = (ingredientId: string | Types.ObjectId) => {

@@ -69,7 +69,7 @@ export const deleteRecipeCategoryById = async (id: string | Types.ObjectId) => {
 };
 
 const recipeCategoryExists = (recipeCategory: RecipeCategory) => {
-    return Object.keys(recipeCategory).length !== 0
+    return recipeCategory && Object.keys(recipeCategory).length !== 0
 }
 
 const recipeCategoryIdIsValid = (recipeCategoryId: string) => {
