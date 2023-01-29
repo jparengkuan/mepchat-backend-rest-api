@@ -15,7 +15,9 @@ export const createUserRoleHandler = async (
   try {
     const userRole = await createUserRole({
       name: req.body.name,
-      description: req.body.description
+      description: req.body.description,
+      // @ts-ignore 
+      team: req.body.team
     });
 
     res.status(201).json({

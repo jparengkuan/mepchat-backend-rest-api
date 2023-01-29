@@ -6,6 +6,7 @@ export const createUserRoleSchema = object({
   body: object({
     name: string({ required_error: 'Name for user role is required' }),
     description: string().optional(),
+    team: string().optional()
   }),
 });
 
