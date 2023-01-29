@@ -13,6 +13,9 @@ import {
     findAndCheckDishCategoryById,
 } from "../services/dishCategory.service";
 import {findAndCheckDishById} from "../services/dish.service";
+import {Ref} from "@typegoose/typegoose";
+import {Dish} from "../models/dish.model";
+import {Types} from "mongoose";
 
 export const createDishCategoryHandler = async (
     req: Request<{}, {}, CreateDishCategoryInput>,
@@ -20,14 +23,17 @@ export const createDishCategoryHandler = async (
     next: NextFunction
 ) => {
     try {
-        const dishesReq = req.body.dishes ?? []
+        console.log(req.body.dishes)
+        const dishesReq = req.body.dishes as unknown as Ref<Dish, Types.ObjectId>[] ?? []
         await validateDishIds(dishesReq)
 
         const dishCategory = await createDishCategory({
             dishes: dishesReq,
             title: req.body.title!,
             created_at: new Date(),
-            updated_at: new Date()
+            updated_at: new Date(),
+            archived_at: req.body.archived_at,
+            deleted_at: req.body.deleted_at,
         })
 
         res.status(201).json({
@@ -120,6 +126,8 @@ export const updateDishCategoryHandler = async (
                 updated_at: new Date(),
                 // @ts-ignore
                 dishes: dishesReq,
+                archived_at: req.body.archived_at,
+                deleted_at: req.body.deleted_at,
             }
         } else {
             receivedDishCategory = {

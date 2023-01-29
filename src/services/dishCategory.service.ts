@@ -3,7 +3,7 @@ import {APIError} from "../utils/APIError";
 import {DishCategory, dishCategoryModel} from "../models/dishCategory.model";
 import {mongoose} from "@typegoose/typegoose";
 
-export const createDishCategory = async (input: { updated_at: Date; created_at: Date; dishes: string[]; title: string }) => {
+export const createDishCategory = async (input: DishCategory) => {
     const dishCategory = await dishCategoryModel.create(input);
     return dishCategory.toJSON();
 };

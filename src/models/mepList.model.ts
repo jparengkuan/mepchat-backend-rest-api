@@ -1,6 +1,5 @@
 import {getModelForClass, index, mongoose, prop, Ref} from "@typegoose/typegoose";
 import {User} from "./user.model";
-import {MepTask} from "./mepTask.model";
 
 @index({ name: 1})
 
@@ -15,6 +14,12 @@ export class MepList {
 
     @prop({ required: true, ref: () => User })
     owner_id!: Ref<User>;
+
+    @prop()
+    archived_at?: Date;
+
+    @prop()
+    deleted_at?: Date;
 }
 
 export const mepListModel = getModelForClass(MepList);

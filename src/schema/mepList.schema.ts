@@ -1,4 +1,4 @@
-import {boolean, object, string, TypeOf} from 'zod';
+import {boolean, object, string, TypeOf, z} from 'zod';
 
 const params = {
     params: object({
@@ -11,6 +11,8 @@ export const createMepListSchema = object({
         title: string({ required_error: 'Title for a mepList is required'}),
         active: boolean({ required_error: 'Active information for a mepList is required'}),
         owner_id: string({ required_error: 'owner_id instructions for a mepList is required'}),
+        archived_at: z.string().transform((a) => new Date(a)).optional(),
+        deleted_at: z.string().transform((a) => new Date(a)).optional(),
     }),
 });
 
@@ -28,6 +30,8 @@ export const updateMepListSchema = object({
         title: string().optional(),
         active: boolean().optional(),
         owner_id: object({}).optional(),
+        archived_at: z.string().transform((a) => new Date(a)).optional(),
+        deleted_at: z.string().transform((a) => new Date(a)).optional(),
     }),
 });
 

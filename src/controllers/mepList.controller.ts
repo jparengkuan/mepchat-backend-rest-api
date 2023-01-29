@@ -25,6 +25,8 @@ export const createMepListHandler = async (
             title: req.body.title!,
             active: req.body.active!,
             owner_id: req.body.owner_id! as unknown as Types.ObjectId,
+            archived_at: req.body.archived_at,
+            deleted_at: req.body.deleted_at
         })
 
         res.status(201).json({
@@ -111,6 +113,8 @@ export const updateMepListHandler = async (
             title: req.body.title!,
             active: req.body.active!,
             owner_id: req.body.owner_id as Types.ObjectId,
+            archived_at: req.body.archived_at,
+            deleted_at: req.body.deleted_at
         }
 
         const updatedMepList = await mepListModel.updateOne({_id: mepListId}, receivedMepList)
