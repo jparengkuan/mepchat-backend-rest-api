@@ -13,7 +13,7 @@ EXPOSE 8000
 # CMD npm start
 #RUN cd ./src
 #CMD ["./docker/startup"]
-#CMD ["npm", "run", "start:watch"]
+CMD ["npm", "run", "start:watch"]
 
 #CMD ["npm", "run", "dev:run"]
 #CMD ["yarn", "run", "watch-server"]
